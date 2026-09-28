@@ -9,11 +9,453 @@
       @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
     </style>
   </head>
-  <body class="font-montserrat mx-5 my-2.5">
+  <body class="font-montserrat">
     <!-- Navigasi -->
-    <header>
-      
+    <header class="flex justify-between p-7">
+      <div class="flex items-center gap-2">
+        <img src="./src/Assets/logo.png" alt="logo" class="w-15" />
+        <h1 class="text-xl tracking-widest text-teal-950">
+          Greeners Indonesia
+        </h1>
+      </div>
+
+      <div class="flex items-center">
+        <ul class="flex gap-3 font-medium">
+          <li><a href="home">Home</a></li>
+          <li><a href="explore">Explore</a></li>
+          <li><a href="challenges">Challenges</a></li>
+          <li><a href="action">Take Action</a></li>
+          <li><a href="about">About</a></li>
+        </ul>
+      </div>
     </header>
     <!-- Navigasi -->
+
+    <!--Hero section-->
+    <!--Hero section-->
+
+    <!-- Natural Treasure Start -->
+    <section class="p-15 flex flex-col gap-20 bg-green-50">
+      <div class="flex flex-row justify-between items-center gap-5">
+        <div class="flex flex-col">
+          <h2 class="text-[24px] font-thin tracking-[10px] font-Montserrat">
+            introducing
+          </h2>
+
+          <h1 class="text-[50px] font-medium font-serif">
+            Indonesia natural treasure
+          </h1>
+        </div>
+
+        <div class="text-[18px] font-thin font-Montserrat max-w-[300px]">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+          accusamus dicta vel animi quos eveniet in, enim maiores sit natus,
+          iste saepe.
+        </div>
+      </div>
+
+      <!-- intreractive map -->
+      <div class="relative w-full max-w-7xl mx-auto min-h-[700px]">
+        <!-- MAP -->
+        <img
+          src="./src/Assets/peta.png"
+          alt="Indonesia Natural Treasure"
+          class="absolute inset-0 w-full h-full object-contain"
+        />
+
+        <!-- KALIMANTAN -->
+        <button
+          onclick="showRegion('kalimantan')"
+          class="absolute top-0 left-[25%] w-[310px] cursor-pointer transition duration-300 hover:scale-105"
+        >
+          <img
+            src="./src/Assets/Kalimantan.png"
+            alt="Kalimantan"
+            class="w-full"
+          />
+        </button>
+
+        <!-- SULAWESI -->
+        <button
+          onclick="showRegion('sulawesi')"
+          class="absolute top-[2%] right-[18%] w-[310px] cursor-pointer transition duration-300 hover:scale-105"
+        >
+          <img src="./src/Assets/Sulawesi.png" alt="Sulawesi" class="w-full" />
+        </button>
+
+        <!-- SUMATRA -->
+        <button
+          onclick="showRegion('sumatra')"
+          class="absolute bottom-[15%] left-0 w-[310px] cursor-pointer transition duration-300 hover:scale-105"
+        >
+          <img src="./src/Assets/Sumatra.png" alt="Sumatra" class="w-full" />
+        </button>
+
+        <!-- JAWA -->
+        <button
+          onclick="showRegion('jawa')"
+          class="absolute bottom-0 left-[31%] w-[310px] cursor-pointer transition duration-300 hover:scale-105"
+        >
+          <img src="./src/Assets/Jawa.png" alt="Pulau Jawa" class="w-full" />
+        </button>
+
+        <!-- RAJA AMPAT -->
+        <button
+          onclick="showRegion('rajaAmpat')"
+          class="absolute bottom-[13%] right-0 w-[310px] cursor-pointer transition duration-300 hover:scale-105"
+        >
+          <img
+            src="./src/Assets/Raja Ampat.png"
+            alt="Raja Ampat"
+            class="w-full"
+          />
+        </button>
+      </div>
+      <!-- Interactive map -->
+      <!-- Modal -->
+      <!-- MODAL -->
+      <div
+        id="regionModal"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm px-6"
+      >
+        <div
+          class="relative w-full max-w-lg rounded-3xl bg-white p-8 shadow-2xl"
+        >
+          <!-- CLOSE BUTTON -->
+          <button
+            onclick="closeRegion()"
+            class="absolute right-5 top-5 w-9 h-9 rounded-full bg-black/5 hover:bg-black/10 transition"
+          >
+            ×
+          </button>
+
+          <!-- CONTENT -->
+          <p
+            id="modalCategory"
+            class="text-sm font-semibold uppercase tracking-widest text-[#51AA78]"
+          >
+            Natural Treasure
+          </p>
+
+          <h2 id="modalTitle" class="text-3xl font-bold mt-3 text-[#2C2C2C]">
+            Kalimantan
+          </h2>
+
+          <p id="modalDescription" class="text-gray-500 leading-relaxed mt-5">
+            Description
+          </p>
+        </div>
+      </div>
+      <!-- Modal -->
+    </section>
+    <!-- Natural Treasure End -->
+
+    <!-- Environmental Challenges Start -->
+    <section class="p-15 flex flex-col gap-20 bg-white pt-20">
+      <div class="flex flex-row justify-between items-center gap-5">
+        <div class="flex flex-col">
+          <h2 class="text-[24px] font-thin tracking-[10px] font-Montserrat">
+            The Problems
+          </h2>
+          <h1 class="text-[50px] font-medium font-serif max-w-[700px]">
+            Indonesia Environmental Challenges
+          </h1>
+        </div>
+
+        <div class="text-[18px] font-thin font-Montserrat max-w-[300px]">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+          accusamus dicta vel animi quos eveniet in, enim maiores sit natus,
+          iste saepe.
+        </div>
+      </div>
+
+      <div class="flex flex-row items-center justify-center gap-[100px]">
+        <div class="flex flex-col relative">
+          <img
+            src="./src/Assets/Waste.png"
+            alt="Plastic Waste"
+            class="object-cover w-[250px] h-auto"
+          />
+
+          <h1
+            class="text-[24px] font-medium font-serif text-[#FFFFFF] absolute top-66 left-3"
+          >
+            Plastic Waste
+          </h1>
+
+          <p
+            class="text-[16px] font-thin font-serif text-[#FFFFFF] absolute top-77 left-3"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+            accusamus dicta animi quos eveniet.
+          </p>
+        </div>
+
+        <div class="flex flex-col relative">
+          <img
+            src="./src/Assets/Deforestation.png"
+            alt="Plastic Waste"
+            class="object-cover w-[250px] h-auto"
+          />
+
+          <h1
+            class="text-[24px] font-medium font-serif text-[#FFFFFF] absolute top-66 left-3"
+          >
+            Deforestation
+          </h1>
+
+          <p
+            class="text-[16px] font-thin font-serif text-[#FFFFFF] absolute top-77 left-3"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+            accusamus dicta animi quos eveniet.
+          </p>
+        </div>
+
+        <div class="flex flex-col relative">
+          <img
+            src="./src/Assets/Air Polution'.png"
+            alt="Plastic Waste"
+            class="object-cover w-[250px] h-auto"
+          />
+
+          <h1
+            class="text-[24px] font-medium font-serif text-[#FFFFFF] absolute top-66 left-3"
+          >
+            Air Polution
+          </h1>
+
+          <p
+            class="text-[16px] font-thin font-serif text-[#FFFFFF] absolute top-77 left-3"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+            accusamus dicta animi quos eveniet.
+          </p>
+        </div>
+
+        <div class="flex flex-col relative">
+          <img
+            src="./src/Assets/Human-widelife.png"
+            alt="Plastic Waste"
+            class="object-cover w-[250px] h-auto"
+          />
+
+          <h1
+            class="text-[24px] font-medium font-serif text-[#FFFFFF] absolute top-66 left-3"
+          >
+            Wildlife conflict
+          </h1>
+
+          <p
+            class="text-[16px] font-thin font-serif text-[#FFFFFF] absolute top-77 left-3"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+            accusamus dicta animi quos eveniet.
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- Environmental Challenges End -->
+
+    <!-- Solution Start -->
+    <section class="p-15 flex flex-col gap-20 bg-green-50 pt-20">
+      <div class="flex flex-row justify-between items-center gap-5">
+        <div class="flex flex-col">
+          <h2 class="text-[24px] font-thin tracking-[10px] font-Montserrat">
+            The Solution
+          </h2>
+
+          <h1 class="text-[50px] font-medium font-serif">
+            Small <span class="font-bold">Actions.</span> Big impact
+          </h1>
+        </div>
+
+        <div class="text-[18px] font-thin font-Montserrat max-w-[300px]">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+          accusamus dicta vel animi quos eveniet in, enim maiores sit natus,
+          iste saepe.
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-between gap-10 item-center">
+        <div
+          class="flex flex-col gap-5 bg-white p-5 rounded-xl shadow-lg max-w-[350px] h-[auto]"
+        >
+          <img
+            src="./src/Assets/Vector.png"
+            alt="Reduce"
+            class="w-[20px] h-auto pt-[10px]"
+          />
+          <h2
+            class="font-bold font-montserrat tracking-[5px] text-[24px] text-[#4A6B6A]"
+          >
+            Reduce
+          </h2>
+
+          <p
+            class="max-w-[250px] text-[16px] font-regular font-montserrat text-[#4A6B6A]"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+            accusamus dicta vel animi quos eveniet in.
+          </p>
+
+          <p>
+            <a href="#" class="text-[#4A6B6A] hover:underline font-regular"
+              >Details</a
+            >
+          </p>
+        </div>
+
+        <div
+          class="flex flex-col gap-5 bg-white p-5 rounded-xl shadow-lg max-w-[350px] h-[auto]"
+        >
+          <img
+            src="./src/Assets/Vector.png"
+            alt="Reduce"
+            class="w-[20px] h-auto pt-[10px]"
+          />
+          <h2
+            class="font-bold font-montserrat tracking-[5px] text-[24px] text-[#4A6B6A]"
+          >
+            Reduce
+          </h2>
+
+          <p
+            class="max-w-[250px] text-[16px] font-regular font-montserrat text-[#4A6B6A]"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+            accusamus dicta vel animi quos eveniet in.
+          </p>
+
+          <p>
+            <a href="#" class="text-[#4A6B6A] hover:underline font-regular"
+              >Details</a
+            >
+          </p>
+        </div>
+
+        <div
+          class="flex flex-col gap-5 bg-white p-5 rounded-xl shadow-lg max-w-[350px] h-[auto]"
+        >
+          <img
+            src="./src/Assets/Vector.png"
+            alt="Reduce"
+            class="w-[20px] h-auto pt-[10px]"
+          />
+          <h2
+            class="font-bold font-montserrat tracking-[5px] text-[24px] text-[#4A6B6A]"
+          >
+            Reduce
+          </h2>
+
+          <p
+            class="max-w-[250px] text-[16px] font-regular font-montserrat text-[#4A6B6A]"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+            accusamus dicta vel animi quos eveniet in.
+          </p>
+
+          <p>
+            <a href="#" class="text-[#4A6B6A] hover:underline font-regular"
+              >Details</a
+            >
+          </p>
+        </div>
+
+        <div
+          class="flex flex-col gap-5 bg-white p-5 rounded-xl shadow-lg max-w-[350px] h-[auto]"
+        >
+          <img
+            src="./src/Assets/Vector.png"
+            alt="Reduce"
+            class="w-[20px] h-auto pt-[10px]"
+          />
+          <h2
+            class="font-bold font-montserrat tracking-[5px] text-[24px] text-[#4A6B6A]"
+          >
+            Reduce
+          </h2>
+
+          <p
+            class="max-w-[250px] text-[16px] font-regular font-montserrat text-[#4A6B6A]"
+          >
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
+            accusamus dicta vel animi quos eveniet in.
+          </p>
+
+          <p>
+            <a href="#" class="text-[#4A6B6A] hover:underline font-regular"
+              >Details</a
+            >
+          </p>
+        </div>
+      </div>
+    </section>
+    <!-- Solution End -->
+    <!-- script -->
+    <script>
+      const regions = {
+        kalimantan: {
+          title: "Kalimantan",
+          category: "Tropical Rainforests",
+          description:
+            "Kalimantan is home to vast tropical rainforests, rivers, and incredible biodiversity. Its forests provide important habitats for orangutans and many other species while playing an important role in maintaining the balance of nature.",
+        },
+
+        sulawesi: {
+          title: "Sulawesi",
+          category: "Unique Ecosystems",
+          description:
+            "Sulawesi is known for its unique landscapes and biodiversity. The island is home to many species that cannot be found anywhere else, making its forests, mountains, and coastal ecosystems valuable natural treasures.",
+        },
+
+        sumatra: {
+          title: "Sumatra",
+          category: "Wildlife & Forests",
+          description:
+            "Sumatra contains some of Indonesia's most important tropical forests. These ecosystems provide habitats for incredible wildlife such as orangutans, elephants, and tigers while supporting a wide range of plant and animal species.",
+        },
+
+        jawa: {
+          title: "Pulau Jawa",
+          category: "Volcanic Landscapes",
+          description:
+            "Java is known for its volcanic mountains, fertile landscapes, and diverse ecosystems. Its forests and mountainous areas provide important habitats while the volcanic soil supports rich agricultural environments.",
+        },
+
+        rajaAmpat: {
+          title: "Raja Ampat",
+          category: "Marine Ecosystem",
+          description:
+            "Raja Ampat is one of Indonesia's most remarkable marine regions. Its crystal-clear waters, coral reefs, mangroves, and rich marine biodiversity make it an important ecosystem that deserves to be protected.",
+        },
+      };
+
+      function showRegion(region) {
+        const data = regions[region];
+
+        document.getElementById("modalCategory").textContent = data.category;
+
+        document.getElementById("modalTitle").textContent = data.title;
+
+        document.getElementById("modalDescription").textContent =
+          data.description;
+
+        const modal = document.getElementById("regionModal");
+
+        modal.classList.remove("hidden");
+
+        modal.classList.add("flex");
+      }
+
+      function closeRegion() {
+        const modal = document.getElementById("regionModal");
+
+        modal.classList.add("hidden");
+
+        modal.classList.remove("flex");
+      }
+    </script>
+    <!-- script -->
   </body>
 </html>
