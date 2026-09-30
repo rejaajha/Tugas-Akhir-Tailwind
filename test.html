@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Greeners Indonesia</title>
+<meta name="theme-color" content="#061810" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23061810'/%3E%3Cpath d='M48 12C24 12 12 26 14 44c1 6 6 8 10 6 18-4 30-18 24-38z' fill='%2351AA78'/%3E%3Cpath d='M20 46C28 34 36 26 44 20' stroke='%23061810' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E" />
+<noscript><style>.reveal{opacity:1!important;transform:none!important}.loader{display:none!important}</style></noscript>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="./src/output.css" />
+<style>
+* { font-family: "Montserrat", sans-serif; }
+html:not(.lenis) { scroll-behavior: smooth; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+body { overflow-x: hidden; }
+
+/* NAVBAR: solid setelah scroll supaya tetap terbaca di section terang */
+.site-header { transition: background .4s ease, padding .4s ease, backdrop-filter .4s ease; }
+.site-header.solid { background: rgba(6,24,16,.88); backdrop-filter: blur(14px); padding-top: 12px; padding-bottom: 12px; }
+
+/* HERO */
+.hero {
+  background-image:
+    linear-gradient(to bottom, rgba(6,24,16,.3), rgba(6,24,16,.06), rgba(6,24,16,.62)),
+    url("https://unsplash.com/photos/4tMHO3NbUEc/download?force=true&w=2400");
+  background-color: #0b2419; background-size: cover; background-position: center;
+}
+.hero-title { text-shadow: 0 8px 35px rgba(0,0,0,.2); }
+
+/* satu font saja (Montserrat): kelas .serif hanya mengatur gaya judul */
+.serif { font-family: "Montserrat", sans-serif; font-weight: 500; letter-spacing: -0.04em; }
+
+.footer-word { background: linear-gradient(to bottom, rgba(180,203,181,.35), rgba(180,203,181,0) 85%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+
+/* ===== LOADER ===== */
+.loader { position: fixed; inset: 0; z-index: 200; color: #fff; }
+.lp { position: absolute; left: 0; width: 100%; height: 50.5%; background: #061810; transition: transform 1.1s cubic-bezier(.77,0,.175,1); }
+.lp-top { top: 0; } .lp-bot { bottom: 0; }
+.loader.done .lp-top { transform: translateY(-101%); }
+.loader.done .lp-bot { transform: translateY(101%); }
+.loader-ui { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: space-between; padding: 28px 24px; transition: opacity .5s ease, transform .8s ease; }
+@media (min-width: 768px) { .loader-ui { padding: 40px 56px; } }
+.loader.done .loader-ui { opacity: 0; transform: scale(1.06); }
+.loader-glow { position: absolute; left: 50%; top: 50%; width: 520px; height: 520px; margin: -260px 0 0 -260px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,170,120,.28), transparent 65%); animation: glow 3s ease-in-out infinite; }
+@keyframes glow { 50% { transform: scale(1.25); opacity: .6; } }
+.ring-a { transform-origin: 100px 100px; animation: spin 14s linear infinite; }
+.ring-b { transform-origin: 100px 100px; animation: spin 5s linear infinite reverse; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.leaf-draw { stroke-dasharray: 1; stroke-dashoffset: 1; fill-opacity: 0; animation: draw 2.2s .2s cubic-bezier(.65,0,.35,1) forwards; }
+@keyframes draw { 70% { stroke-dashoffset: 0; fill-opacity: 0; } 100% { stroke-dashoffset: 0; fill-opacity: 1; } }
+.leaf-vein { stroke-dasharray: 1; stroke-dashoffset: 1; animation: draw2 1s 1.6s ease forwards; }
+@keyframes draw2 { to { stroke-dashoffset: 0; } }
+.leaf-pulse { transform-origin: 100px 100px; animation: pulse 2.4s 2.4s ease-in-out infinite; }
+@keyframes pulse { 50% { transform: scale(1.07); } }
+.loader-word { animation: wordIn .55s cubic-bezier(.22,1,.36,1); }
+@keyframes wordIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.spark { position: absolute; bottom: -10px; width: 4px; height: 4px; border-radius: 50%; background: #9fba9f; opacity: 0; animation: rise linear infinite; }
+@keyframes rise { 0% { transform: translateY(0) translateX(0); opacity: 0; } 15% { opacity: .9; } 100% { transform: translateY(-105vh) translateX(30px); opacity: 0; } }
+.loader-bar { position: absolute; left: 0; bottom: 0; height: 3px; width: 100%; background: linear-gradient(90deg,#51AA78,#d9e86b); transform-origin: left; transform: scaleX(0); }
+
+/* hero masuk setelah loader */
+.reveal { opacity: 0; transform: translateY(36px); transition: opacity 1s cubic-bezier(.22,1,.36,1), transform 1s cubic-bezier(.22,1,.36,1); }
+body.ready .reveal { opacity: 1; transform: none; }
+.reveal.d1 { transition-delay: .35s; } .reveal.d2 { transition-delay: .55s; } .reveal.d3 { transition-delay: .75s; }
+@media (prefers-reduced-motion: reduce) { .ring-a, .ring-b, .loader-glow, .leaf-pulse, .spark { animation: none; } .reveal { transition: none; } }
+
+/* ===== CHALLENGES ===== */
+.ch-panel { position: relative; overflow: hidden; flex: none; height: 104px; border-radius: 28px; cursor: pointer; outline: none;
+  transition: height .7s cubic-bezier(.22,1,.36,1), flex .7s cubic-bezier(.22,1,.36,1); }
+.ch-panel.active { height: 440px; }
+.ch-panel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scale(1.12); filter: brightness(.7) saturate(.8);
+  transition: transform 1s cubic-bezier(.22,1,.36,1), filter .7s ease; }
+.ch-panel.active img { transform: scale(1); filter: none; }
+.ch-panel:focus-visible { box-shadow: 0 0 0 3px #51AA78; }
+.ch-label { left: 24px; bottom: 30px; transition: opacity .35s ease; }
+.ch-panel.active .ch-label { opacity: 0; pointer-events: none; }
+.ch-body { opacity: 0; transform: translateY(24px); pointer-events: none; transition: opacity .3s ease, transform .3s ease; }
+.ch-panel.active .ch-body { opacity: 1; transform: none; transition: opacity .6s .25s ease, transform .7s .25s cubic-bezier(.22,1,.36,1); }
+.ch-plus { transition: transform .5s ease, background .3s ease; }
+.ch-panel.active .ch-plus { transform: rotate(45deg); background: rgba(255,255,255,.2); }
+@media (min-width: 1024px) {
+  .ch-panel { height: auto; flex: 1 1 0; }
+  .ch-panel.active { height: auto; flex: 4.5 1 0; }
+  .ch-label { writing-mode: vertical-rl; transform: rotate(180deg); left: 50%; margin-left: -12px; bottom: 28px; font-size: 20px; }
+}
+
+/* MENU */
+.menu-overlay { visibility: hidden; opacity: 0; transform: translateY(100%);
+  transition: transform .7s cubic-bezier(.77,0,.175,1), opacity .5s ease, visibility .7s; }
+.menu-overlay.active { visibility: visible; opacity: 1; transform: translateY(0); }
+.menu-item { opacity: 0; transform: translateY(35px); transition: opacity .5s ease, transform .5s ease; }
+.menu-overlay.active .menu-item { opacity: 1; transform: none; }
+.menu-overlay.active .menu-item:nth-child(1) { transition-delay: .12s; }
+.menu-overlay.active .menu-item:nth-child(2) { transition-delay: .2s; }
+.menu-overlay.active .menu-item:nth-child(3) { transition-delay: .28s; }
+.menu-overlay.active .menu-item:nth-child(4) { transition-delay: .36s; }
+.menu-overlay.active .menu-item:nth-child(5) { transition-delay: .44s; }
+.menu-link { display: grid; grid-template-columns: 50px minmax(0,1fr) 60px; align-items: center;
+  border-bottom: 1px solid rgba(255,255,255,.1); padding: 20px 0; }
+.menu-arrow { opacity: 0; transform: translateX(-8px); transition: opacity .3s ease, transform .3s ease; }
+.menu-link:hover .menu-arrow { opacity: 1; transform: none; }
+.menu-link:hover .menu-title { color: #9fba9f; }
+.menu-title { color: #fff; font-size: clamp(42px,5vw,76px); font-weight: 500; letter-spacing: -.07em; line-height: .95; transition: color .3s ease; }
+
+@media (max-width: 768px) {
+  .menu-link { grid-template-columns: 35px minmax(0,1fr) 35px; padding: 17px 0; }
+  .menu-title { font-size: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:not(.lenis) { scroll-behavior: auto; }
+  .menu-overlay, .menu-item { transition: none; }
+}
+/* SOLUTION: fallback tanpa animasi (reduced motion) -> geser manual */
+.hs-native .hs-sticky { position: static; height: auto; padding-top: 96px; padding-bottom: 64px; }
+.hs-native .hs-scroller { overflow-x: auto; scroll-snap-type: x proximity; }
+.hs-native #hsTrack { transform: none !important; }
+/* EXPLORE: animasi buka modal pulau */
+@keyframes modalIn { from { opacity: 0; transform: translateY(18px) scale(.97); } to { opacity: 1; transform: none; } }
+.modal-in { animation: modalIn .45s cubic-bezier(.22,1,.36,1); }
+@media (prefers-reduced-motion: reduce) { .modal-in { animation: none; } }
+</style>
+</head>
+
+<body class="bg-[#f2f7f0]">
+
+<!-- LOADER -->
+<div id="loader" class="loader" role="status" aria-label="Memuat">
+  <div class="lp lp-top"></div><div class="lp lp-bot"></div>
+  <div id="sparks" class="pointer-events-none absolute inset-0 overflow-hidden"></div>
+  <div class="loader-glow pointer-events-none"></div>
+
+  <div class="loader-ui">
+    <div class="flex items-center justify-between text-[10px] font-semibold uppercase tracking-[0.35em]">
+      <span class="text-[#9fba9f]">Greeners Indonesia</span>
+      <span class="text-white/40">Loading</span>
+    </div>
+
+    <div class="flex justify-center">
+      <svg class="h-44 w-44 md:h-56 md:w-56" viewBox="0 0 200 200" fill="none">
+        <g class="ring-a"><circle cx="100" cy="100" r="92" stroke="#9fba9f" stroke-opacity=".35" stroke-width="1" stroke-dasharray="2 9" stroke-linecap="round"/></g>
+        <g class="ring-b"><circle cx="100" cy="100" r="78" stroke="#51AA78" stroke-width="2" stroke-dasharray="90 400" stroke-linecap="round"/><circle cx="100" cy="100" r="78" stroke="#d9e86b" stroke-width="2" stroke-dasharray="26 464" stroke-dashoffset="-210" stroke-linecap="round"/></g>
+        <circle cx="100" cy="100" r="62" stroke="#ffffff" stroke-opacity=".08"/>
+        <g class="leaf-pulse"><g transform="translate(52 50) scale(1.5)">
+          <path class="leaf-draw" pathLength="1" d="M48 12C24 12 12 26 14 44c1 6 6 8 10 6 18-4 30-18 24-38z" stroke="#b4cbb5" stroke-width="1.4" fill="#51AA78"/>
+          <path class="leaf-vein" pathLength="1" d="M20 46C28 34 36 26 44 20" stroke="#061810" stroke-width="1.8" stroke-linecap="round"/>
+        </g></g>
+      </svg>
+    </div>
+
+    <div class="flex items-end justify-between gap-6">
+      <div class="serif flex items-baseline leading-[0.85]"><span id="loaderNum" class="text-[clamp(72px,16vw,190px)] font-normal">0</span><span class="text-[clamp(24px,4vw,56px)] text-[#9fba9f]">%</span></div>
+      <div class="pb-2 text-right">
+        <p id="loaderWord" class="loader-word serif text-2xl italic text-[#b4cbb5] md:text-4xl">Discover</p>
+        <p class="mt-3 text-[9px] font-semibold uppercase tracking-[0.3em] text-white/35">One Earth · One Future</p>
+      </div>
+    </div>
+  </div>
+  <div id="loaderBar" class="loader-bar"></div>
+</div>
+
+<!-- NAVBAR -->
+<header id="siteHeader" class="site-header fixed left-0 top-0 z-40 w-full px-6 py-6 md:px-10 lg:px-14">
+  <nav class="flex items-center justify-between">
+    <a href="#home" class="flex items-center gap-2">
+      <img src="./src/Assets/logo.png" alt="Greeners Indonesia" class="w-12 brightness-0 invert" />
+      <span class="text-sm font-bold tracking-[-0.04em] text-white">GREENERS</span>
+    </a>
+    <button id="menuButton" type="button" aria-label="Buka menu" aria-expanded="false" class="group flex h-14 w-[76px] cursor-pointer flex-col items-center justify-center gap-2 rounded-full border border-white/30 bg-black/10 backdrop-blur-md transition duration-300 hover:border-[#9fba9f] hover:bg-[#9fba9f]">
+      <span class="h-px w-7 bg-white transition duration-300 group-hover:bg-[#061810]"></span>
+      <span class="h-px w-7 bg-white transition duration-300 group-hover:bg-[#061810]"></span>
+    </button>
+  </nav>
+</header>
+
+<!-- MENU OVERLAY -->
+<div id="menuOverlay" class="menu-overlay fixed inset-0 z-[100] h-screen w-full bg-[#061810]">
+  <div class="flex h-full flex-col">
+    <div class="flex items-center justify-between border-b border-white/10 px-6 py-6 md:px-10 lg:px-14">
+      <a href="#home" class="flex items-center gap-2">
+        <img src="./src/Assets/logo.png" alt="Greeners Indonesia" class="w-12 brightness-0 invert" />
+        <span class="text-sm font-bold tracking-[-0.04em] text-white">GREENERS</span>
+      </a>
+      <button id="closeMenu" type="button" aria-label="Tutup menu" class="group relative flex h-14 w-[76px] items-center justify-center rounded-full border border-white/30 transition duration-300 hover:border-[#9fba9f] hover:bg-[#9fba9f]">
+        <span class="absolute h-px w-7 rotate-45 bg-white transition group-hover:bg-[#061810]"></span>
+        <span class="absolute h-px w-7 -rotate-45 bg-white transition group-hover:bg-[#061810]"></span>
+      </button>
+    </div>
+
+    <div class="grid min-h-0 flex-1 lg:grid-cols-[minmax(0,1fr)_360px]">
+      <div class="flex min-h-0 items-center overflow-y-auto px-6 py-8 md:px-10 lg:px-16">
+        <div class="w-full max-w-6xl">
+          <a href="#home" class="menu-item menu-link group">
+            <span class="text-[#9fba9f]"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 11.5L12 4l9 7.5"/><path d="M5.5 10v9h13v-9"/></svg></span>
+            <span class="menu-title">Home</span>
+            <span class="menu-arrow text-right text-3xl text-[#9fba9f]">→</span>
+          </a>
+          <a href="#explore" class="menu-item menu-link group">
+            <span class="text-[#9fba9f]"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg></span>
+            <span class="menu-title">Explore</span>
+            <span class="menu-arrow text-right text-3xl text-[#9fba9f]">→</span>
+          </a>
+          <a href="#challenges" class="menu-item menu-link group">
+            <span class="text-[#9fba9f]"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3l9 18H3L12 3Z"/><path d="M12 9v5"/><circle cx="12" cy="17" r=".5" fill="currentColor"/></svg></span>
+            <span class="menu-title">Challenges</span>
+            <span class="menu-arrow text-right text-3xl text-[#9fba9f]">→</span>
+          </a>
+          <a href="#action" class="menu-item menu-link group">
+            <span class="text-[#9fba9f]"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3v18"/><path d="M3 12h18"/></svg></span>
+            <span class="menu-title">Take Action</span>
+            <span class="menu-arrow text-right text-3xl text-[#9fba9f]">→</span>
+          </a>
+          <a href="#about" class="menu-item menu-link group">
+            <span class="text-[#9fba9f]"><svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 10v6"/><circle cx="12" cy="7" r=".5" fill="currentColor"/></svg></span>
+            <span class="menu-title">About</span>
+            <span class="menu-arrow text-right text-3xl text-[#9fba9f]">→</span>
+          </a>
+        </div>
+      </div>
+
+      <aside class="hidden border-l border-white/10 px-10 py-10 lg:flex lg:flex-col lg:justify-between">
+        <div>
+          <span class="text-[10px] font-semibold tracking-[0.35em] text-[#9fba9f]">GREENERS INDONESIA</span>
+          <p class="mt-5 max-w-xs text-sm leading-7 text-white/40">Bersama menjaga lingkungan, membersihkan alam, dan menciptakan masa depan yang lebih hijau.</p>
+        </div>
+        <div>
+          <div class="mb-8">
+            <span class="text-[9px] font-semibold tracking-[0.3em] text-white/30">OUR PRINCIPLE</span>
+            <h3 class="mt-3 text-3xl font-semibold leading-tight text-white">One Earth.<br />One Future.</h3>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="rounded-2xl border border-white/10 p-5"><span class="text-2xl font-semibold text-[#9fba9f]">01</span><p class="mt-8 text-[10px] uppercase tracking-[0.2em] text-white/40">Protect</p></div>
+            <div class="rounded-2xl border border-white/10 p-5"><span class="text-2xl font-semibold text-[#9fba9f]">02</span><p class="mt-8 text-[10px] uppercase tracking-[0.2em] text-white/40">Restore</p></div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="flex items-center justify-between border-t border-white/10 px-6 py-5 text-[9px] font-semibold tracking-[0.25em] text-white/30 md:px-10 lg:px-14">
+      <span>INDONESIA</span><span>ONE EARTH · ONE FUTURE</span>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section id="home" class="hero relative flex min-h-screen flex-col justify-end overflow-hidden rounded-b-[40px] px-6 pb-12 pt-32 md:rounded-b-[64px] md:px-14 md:pb-16">
+  <div class="absolute inset-0 bg-[#061810]/10"></div>
+
+  <div class="relative z-20">
+    <h1 class="reveal hero-title text-[clamp(2.75rem,10.5vw,9.5rem)] font-semibold leading-[0.88] tracking-[-0.07em] text-white">
+      Protect Our
+      <span class="block font-normal italic text-[#b4cbb5]">Nature.</span>
+    </h1>
+
+    <div class="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <p class="reveal d1 max-w-md text-sm leading-7 text-white/80 md:text-base">Discover the natural treasures of Indonesia and become part of a movement to protect what matters.</p>
+      <div class="reveal d2">
+        <a href="#explore" class="group inline-flex items-center gap-4 rounded-full bg-[#b4cbb5] px-8 py-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#061810] transition duration-500 hover:bg-white">
+          Explore Nature <span class="transition duration-500 group-hover:translate-y-1">↓</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLORE -->
+<section id="explore" class="relative overflow-hidden bg-[#f2f7f0] px-6 pb-28 pt-24 md:px-[60px]" style="background-image:radial-gradient(55% 35% at 12% 0%,rgba(81,170,120,.16),transparent 70%),radial-gradient(45% 35% at 92% 60%,rgba(217,232,107,.18),transparent 70%)">
+  <div class="mx-auto flex max-w-7xl flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+    <div>
+      <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-[#78977d]">Introducing</p>
+      <h2 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.92] tracking-[-0.06em] text-[#18352a] md:text-7xl">Indonesia Natural <span class="block font-normal italic text-[#51AA78]">Treasure.</span></h2>
+    </div>
+    <p class="max-w-[330px] text-sm font-light leading-7 text-[#53645a]">Dari hutan hujan Kalimantan sampai terumbu karang Raja Ampat, Indonesia adalah salah satu negara dengan keanekaragaman hayati terbesar di dunia. Pilih pulaunya dan kenali apa yang sedang kita jaga.</p>
+  </div>
+
+  <div class="mx-auto mt-16 grid max-w-7xl grid-cols-1 divide-y divide-[#18352a]/10 border-y border-[#18352a]/10 sm:grid-cols-3 sm:divide-x sm:divide-y-0">
+    <div class="px-2 py-8 text-center sm:px-6">
+      <p class="count text-5xl font-semibold tracking-[-0.06em] text-[#18352a] md:text-6xl" data-to="17000" data-suffix="+">17.000+</p>
+      <p class="mt-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#78977d]">Pulau</p>
+    </div>
+    <div class="px-2 py-8 text-center sm:px-6">
+      <p class="count text-5xl font-semibold tracking-[-0.06em] text-[#18352a] md:text-6xl" data-to="75" data-prefix="~" data-suffix="%">~75%</p>
+      <p class="mt-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#78977d]">Spesies Karang Dunia di Raja Ampat</p>
+    </div>
+    <div class="px-2 py-8 text-center sm:px-6">
+      <p class="text-5xl font-semibold tracking-[-0.06em] text-[#18352a] md:text-6xl">1 dari 17</p>
+      <p class="mt-3 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#78977d]">Negara Megabiodiversitas</p>
+    </div>
+  </div>
+
+  <p class="mt-12 flex items-center justify-center gap-3 text-[10px] font-semibold uppercase tracking-[0.3em] text-[#78977d]">
+    <span class="relative flex h-2 w-2"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#51AA78] opacity-60 motion-reduce:animate-none"></span><span class="relative inline-flex h-2 w-2 rounded-full bg-[#51AA78]"></span></span>
+    Pilih sebuah pulau untuk mengenalnya
+  </p>
+
+  <!-- mobile: grid 2 kolom | md+: posisi absolut di atas peta -->
+  <div class="relative mx-auto mt-8 grid w-full max-w-7xl grid-cols-2 gap-4 md:block md:min-h-[700px]">
+    <div class="pointer-events-none absolute inset-0 hidden md:block" style="background:radial-gradient(closest-side,rgba(81,170,120,.14),transparent)"></div>
+    <img src="./src/Assets/peta.png" alt="Peta Indonesia" class="absolute inset-0 hidden h-full w-full object-contain md:block" />
+
+    <button type="button" onclick="showRegion('kalimantan')" aria-label="Kalimantan" class="group relative w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:left-[25%] md:top-0 md:w-[220px] lg:w-[310px]">
+      <img src="./src/Assets/Kalimantan.png" alt="Kalimantan" class="w-full drop-shadow-[0_18px_22px_rgba(24,53,42,.22)]" />
+      <span class="absolute bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#18352a] px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-white shadow-lg transition duration-300 group-hover:bg-[#51AA78]">Kalimantan</span>
+    </button>
+    <button type="button" onclick="showRegion('sulawesi')" aria-label="Sulawesi" class="group relative w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:right-[18%] md:top-[2%] md:w-[220px] lg:w-[310px]">
+      <img src="./src/Assets/Sulawesi.png" alt="Sulawesi" class="w-full drop-shadow-[0_18px_22px_rgba(24,53,42,.22)]" />
+      <span class="absolute bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#18352a] px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-white shadow-lg transition duration-300 group-hover:bg-[#51AA78]">Sulawesi</span>
+    </button>
+    <button type="button" onclick="showRegion('sumatra')" aria-label="Sumatra" class="group relative w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:bottom-[15%] md:left-0 md:w-[220px] lg:w-[310px]">
+      <img src="./src/Assets/Sumatra.png" alt="Sumatra" class="w-full drop-shadow-[0_18px_22px_rgba(24,53,42,.22)]" />
+      <span class="absolute bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#18352a] px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-white shadow-lg transition duration-300 group-hover:bg-[#51AA78]">Sumatra</span>
+    </button>
+    <button type="button" onclick="showRegion('jawa')" aria-label="Pulau Jawa" class="group relative w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:bottom-0 md:left-[31%] md:w-[220px] lg:w-[310px]">
+      <img src="./src/Assets/Jawa.png" alt="Pulau Jawa" class="w-full drop-shadow-[0_18px_22px_rgba(24,53,42,.22)]" />
+      <span class="absolute bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#18352a] px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-white shadow-lg transition duration-300 group-hover:bg-[#51AA78]">Pulau Jawa</span>
+    </button>
+    <button type="button" onclick="showRegion('rajaAmpat')" aria-label="Raja Ampat" class="group relative col-span-2 mx-auto w-1/2 cursor-pointer transition duration-300 hover:scale-105 md:absolute md:bottom-[13%] md:right-0 md:col-span-1 md:mx-0 md:w-[220px] lg:w-[310px]">
+      <img src="./src/Assets/Raja%20Ampat.png" alt="Raja Ampat" class="w-full drop-shadow-[0_18px_22px_rgba(24,53,42,.22)]" />
+      <span class="absolute bottom-1 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-[#18352a] px-4 py-2 text-[11px] font-semibold tracking-[0.08em] text-white shadow-lg transition duration-300 group-hover:bg-[#51AA78]">Raja Ampat</span>
+    </button>
+  </div>
+</section>
+
+<!-- REGION MODAL (di luar section supaya tidak terpengaruh overflow-hidden) -->
+<div id="regionModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/55 px-6 backdrop-blur-sm">
+  <div id="modalCard" class="relative w-full max-w-md rounded-3xl bg-[#0b2419] p-7 text-white shadow-2xl md:p-9">
+    <button id="modalClose" type="button" onclick="closeRegion()" aria-label="Tutup" class="absolute right-4 top-4 h-8 w-8 rounded-full bg-white/10 text-white transition hover:bg-white/20">×</button>
+    <p id="modalCategory" class="pr-10 text-[10px] font-semibold uppercase tracking-[0.3em] text-[#9fba9f]"></p>
+    <h2 id="modalTitle" class="serif mt-3 pr-10 text-3xl font-normal md:text-4xl"></h2>
+    <p id="modalDescription" class="mt-4 text-sm leading-7 text-white/75"></p>
+    <div id="modalTags" class="mt-5 flex flex-wrap gap-2"></div>
+    <div class="mt-6 flex items-center justify-between border-t border-white/10 pt-4">
+      <span id="modalCount" class="text-[10px] font-semibold tracking-[0.25em] text-white/40"></span>
+      <div class="flex gap-2">
+        <button type="button" onclick="stepRegion(-1)" aria-label="Pulau sebelumnya" class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition hover:bg-white/10">‹</button>
+        <button type="button" onclick="stepRegion(1)" aria-label="Pulau berikutnya" class="flex h-9 w-9 items-center justify-center rounded-full border border-white/20 text-white transition hover:bg-white/10">›</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CHALLENGES -->
+<section id="challenges" class="flex flex-col gap-14 bg-white px-8 py-28 md:px-[60px]">
+  <div class="flex flex-col items-start justify-between gap-8 md:flex-row md:items-end">
+    <div class="flex flex-col">
+      <p class="text-[10px] font-semibold uppercase tracking-[0.35em] text-[#78977d]">The Problems</p>
+      <h2 class="mt-4 max-w-3xl text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-[#18352a] md:text-6xl">Indonesia Environmental <span class="font-normal italic">Challenges.</span></h2>
+    </div>
+    <div class="max-w-[330px] text-sm font-light leading-7 text-[#53645a]">Empat tantangan yang paling dekat dengan kehidupan kita. Pilih satu untuk mengenalnya lebih jauh.</div>
+  </div>
+
+  <div id="challengeList" class="flex flex-col gap-3 lg:h-[600px] lg:flex-row lg:gap-4">
+    <article class="ch-panel active" tabindex="0" role="button" aria-expanded="true" aria-label="Plastic Waste">
+      <img src="./src/Assets/Waste.png" alt="Plastic Waste" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#061810]/90 via-[#061810]/30 to-[#061810]/40"></div>
+      <span class="absolute left-6 top-6 text-xs font-semibold tracking-[0.2em] text-white/80">01</span>
+      <span class="ch-plus absolute right-6 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-lg text-white backdrop-blur-sm">+</span>
+      <h3 class="ch-label absolute text-lg font-semibold tracking-[-0.03em] text-white">Plastic Waste</h3>
+      <div class="ch-body absolute bottom-0 left-0 right-0 p-6 text-white md:p-8">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#b4cbb5]">Sampah Plastik</p>
+        <h3 class="mt-2 text-3xl font-semibold tracking-[-0.05em] md:text-4xl">Plastic Waste</h3>
+        <p class="mt-3 max-w-md text-sm leading-7 text-white/75">Sampah plastik menjadi salah satu tantangan besar bagi lingkungan darat dan laut. Yang kita buang hari ini bisa sampai ke sungai dan pesisir.</p>
+        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Laut</span><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Sungai</span><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Daratan</span></div>
+      </div>
+    </article>
+    <article class="ch-panel" tabindex="0" role="button" aria-expanded="false" aria-label="Deforestation">
+      <img src="./src/Assets/Deforestation.png" alt="Deforestation" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#061810]/90 via-[#061810]/30 to-[#061810]/40"></div>
+      <span class="absolute left-6 top-6 text-xs font-semibold tracking-[0.2em] text-white/80">02</span>
+      <span class="ch-plus absolute right-6 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-lg text-white backdrop-blur-sm">+</span>
+      <h3 class="ch-label absolute text-lg font-semibold tracking-[-0.03em] text-white">Deforestation</h3>
+      <div class="ch-body absolute bottom-0 left-0 right-0 p-6 text-white md:p-8">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#b4cbb5]">Deforestasi</p>
+        <h3 class="mt-2 text-3xl font-semibold tracking-[-0.05em] md:text-4xl">Deforestation</h3>
+        <p class="mt-3 max-w-md text-sm leading-7 text-white/75">Hilangnya hutan mengancam habitat, keanekaragaman hayati, dan keseimbangan alam yang kita andalkan bersama.</p>
+        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Hutan Hujan</span><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Habitat</span><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Iklim</span></div>
+      </div>
+    </article>
+    <article class="ch-panel" tabindex="0" role="button" aria-expanded="false" aria-label="Air Pollution">
+      <img src="./src/Assets/Air%20Polution'.png" alt="Air Pollution" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#061810]/90 via-[#061810]/30 to-[#061810]/40"></div>
+      <span class="absolute left-6 top-6 text-xs font-semibold tracking-[0.2em] text-white/80">03</span>
+      <span class="ch-plus absolute right-6 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-lg text-white backdrop-blur-sm">+</span>
+      <h3 class="ch-label absolute text-lg font-semibold tracking-[-0.03em] text-white">Air Pollution</h3>
+      <div class="ch-body absolute bottom-0 left-0 right-0 p-6 text-white md:p-8">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#b4cbb5]">Polusi Udara</p>
+        <h3 class="mt-2 text-3xl font-semibold tracking-[-0.05em] md:text-4xl">Air Pollution</h3>
+        <p class="mt-3 max-w-md text-sm leading-7 text-white/75">Kualitas udara adalah bagian penting dari lingkungan yang sehat dan berkelanjutan, terutama di kota-kota besar.</p>
+        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Kota</span><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Kesehatan</span><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Udara Bersih</span></div>
+      </div>
+    </article>
+    <article class="ch-panel" tabindex="0" role="button" aria-expanded="false" aria-label="Wildlife Conflict">
+      <img src="./src/Assets/Human-widelife.png" alt="Wildlife Conflict" loading="lazy" />
+      <div class="absolute inset-0 bg-gradient-to-t from-[#061810]/90 via-[#061810]/30 to-[#061810]/40"></div>
+      <span class="absolute left-6 top-6 text-xs font-semibold tracking-[0.2em] text-white/80">04</span>
+      <span class="ch-plus absolute right-6 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/30 text-lg text-white backdrop-blur-sm">+</span>
+      <h3 class="ch-label absolute text-lg font-semibold tracking-[-0.03em] text-white">Wildlife Conflict</h3>
+      <div class="ch-body absolute bottom-0 left-0 right-0 p-6 text-white md:p-8">
+        <p class="text-[10px] font-semibold uppercase tracking-[0.3em] text-[#b4cbb5]">Konflik Satwa</p>
+        <h3 class="mt-2 text-3xl font-semibold tracking-[-0.05em] md:text-4xl">Wildlife Conflict</h3>
+        <p class="mt-3 max-w-md text-sm leading-7 text-white/75">Menjaga habitat berarti membantu manusia dan satwa hidup berdampingan dengan lebih baik.</p>
+        <div class="mt-5 flex flex-wrap gap-2"><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Orangutan</span><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Harimau</span><span class="rounded-full border border-white/25 bg-white/10 px-3 py-1.5 text-[10px] font-medium backdrop-blur-sm">Gajah</span></div>
+      </div>
+    </article>
+  </div>
+
+  <a href="#action" class="group mx-auto flex items-center gap-3 text-[11px] font-semibold uppercase tracking-[0.25em] text-[#18352a] transition hover:text-[#51AA78]">
+    Setiap tantangan punya solusi
+    <span class="flex h-10 w-10 items-center justify-center rounded-full border border-[#18352a]/20 transition duration-300 group-hover:translate-y-1 group-hover:border-[#51AA78] group-hover:bg-[#51AA78] group-hover:text-white">↓</span>
+  </a>
+</section>
+
+<!-- SOLUTION (scroll horizontal, banyak kategori) -->
+<section id="action" class="relative bg-[#f2f7f0] text-[#18352a]">
+  <div id="hsWrap">
+    <div class="hs-sticky sticky top-0 flex h-screen flex-col justify-center gap-6 overflow-hidden pb-8 pt-24 md:gap-8">
+
+      <div class="flex flex-col items-start justify-between gap-4 px-6 md:flex-row md:items-end md:px-[60px]">
+        <h2 class="text-4xl font-semibold leading-[0.95] tracking-[-0.06em] md:text-6xl">
+          Small Actions. <span class="block font-normal italic text-[#51AA78]">Big Impact.</span>
+        </h2>
+        <p class="max-w-[330px] text-sm font-light leading-7 text-[#53645a]">Perubahan lingkungan dimulai dari kebiasaan sederhana. Pilih satu, lalu mulai hari ini.</p>
+      </div>
+
+      <div class="hs-scroller">
+        <div id="hsTrack" class="flex h-[min(440px,46vh)] w-max gap-4 px-6 will-change-transform md:gap-5 md:px-[60px]"></div>
+      </div>
+
+      <div class="flex items-center gap-4 px-6 md:px-[60px]">
+        <span class="block h-0.5 flex-1 overflow-hidden bg-[#18352a]/15"><span id="hsBar" class="block h-full bg-[#51AA78]" style="transform:scaleX(0);transform-origin:left"></span></span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GREEN FACTS (About) -->
+<section id="about" class="bg-[#0b2419] px-6 pb-24 pt-28 text-white md:px-10 lg:px-20">
+  <div class="mx-auto max-w-7xl">
+    <span class="text-[10px] font-semibold uppercase tracking-[0.4em] text-white/60">Indonesia's Green Fact</span>
+    <h2 class="serif mt-4 text-4xl font-normal md:text-6xl">Every Action Matters</h2>
+
+    <div class="mt-16 grid grid-cols-2 gap-y-12 lg:grid-cols-4">
+      <div class="pr-6 lg:pr-10">
+        <svg class="h-9 w-9 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><path d="M12 20V10"/><path d="M12 10c-2-3-5-3-7-2 2 0 4 1 5 3"/><path d="M12 10c2-3 5-3 7-2-2 0-4 1-5 3"/><path d="M12 10c0-3-1-5-3-6 2 0 3 2 3 6"/><path d="M12 10c0-3 1-5 3-6-2 0-3 2-3 6"/><path d="M3 21c3-1.5 6-1.5 9 0s6 1.5 9 0"/></svg>
+        <p class="serif mt-8 text-4xl">17k+</p>
+        <p class="mt-2 text-sm font-semibold">Pulau</p>
+        <p class="mt-2 max-w-[190px] text-xs leading-5 text-white/50">Negara kepulauan terbesar di dunia.</p>
+      </div>
+      <div class="border-l border-white/15 pl-6 pr-6 lg:pl-10 lg:pr-10">
+        <svg class="h-9 w-9 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><circle cx="12" cy="7" r="2.5"/><circle cx="5" cy="9" r="2"/><circle cx="19" cy="9" r="2"/><path d="M7.5 20v-4a4.5 4.5 0 0 1 9 0v4"/><path d="M2 19v-2.5A3 3 0 0 1 5.5 13.6"/><path d="M22 19v-2.5a3 3 0 0 0-3.5-2.9"/></svg>
+        <p class="serif mt-8 text-4xl">270jt+</p>
+        <p class="mt-2 text-sm font-semibold">Penduduk</p>
+        <p class="mt-2 max-w-[190px] text-xs leading-5 text-white/50">Semuanya bergantung pada alam yang sama.</p>
+      </div>
+      <div class="pr-6 lg:border-l lg:border-white/15 lg:pl-10 lg:pr-10">
+        <svg class="h-9 w-9 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 20l7-13 4 7 2-3 7 9H2Z"/><circle cx="17.5" cy="6" r="1.5"/></svg>
+        <p class="serif mt-8 text-4xl">50+</p>
+        <p class="mt-2 text-sm font-semibold">Taman Nasional</p>
+        <p class="mt-2 max-w-[190px] text-xs leading-5 text-white/50">Melindungi keanekaragaman hayati.</p>
+      </div>
+      <div class="border-l border-white/15 pl-6 lg:pl-10">
+        <svg class="h-9 w-9 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 19V9"/><path d="M12 13c-3 0-5-2-5-5 3 0 5 2 5 5Z"/><path d="M12 11c0-3 2-5 5-5 0 3-2 5-5 5Z"/></svg>
+        <p class="serif mt-8 text-4xl">17%</p>
+        <p class="mt-2 text-sm font-semibold">Spesies Dunia</p>
+        <p class="mt-2 max-w-[190px] text-xs leading-5 text-white/50">Ditemukan di Indonesia.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIME TO ACT -->
+<section id="join" class="relative flex min-h-[85vh] items-center overflow-hidden bg-[#061810] px-6 py-28 text-white md:px-10 lg:px-20"
+  style="background-image:linear-gradient(90deg,rgba(6,24,16,.88),rgba(6,24,16,.35) 60%,rgba(6,24,16,.1)),linear-gradient(to top,rgba(6,24,16,.85),transparent 40%),url('https://unsplash.com/photos/TG50QzQzZm0/download?force=true&w=2400');background-size:cover;background-position:center;">
+  <div class="relative mx-auto w-full max-w-7xl">
+    <span class="text-[10px] font-semibold uppercase tracking-[0.4em] text-white/70">It's time to act</span>
+    <h2 class="serif mt-5 max-w-xl text-5xl font-normal leading-[1.1] md:text-7xl">The Future Is in Our Hands</h2>
+    <p class="mt-8 max-w-md text-sm leading-7 text-white/75">Tidak perlu menunggu perubahan besar. Mulai dari kebiasaan kecil, ikut aksi bersih-bersih, dan ajak orang di sekitarmu bergerak bersama.</p>
+    <a href="#newsletter" class="mt-10 inline-flex items-center gap-3 rounded-full bg-[#51AA78] px-7 py-4 text-[11px] font-semibold text-white transition duration-300 hover:bg-[#6cc592]">
+      Start Your Green Journey <span>›</span>
+    </a>
+  </div>
+</section>
+
+<!-- NEWSLETTER + FOOTER -->
+<footer id="newsletter" class="relative overflow-hidden bg-[#f2f7f0] pt-20 text-[#18352a]">
+  <div class="mx-auto max-w-5xl px-6 text-center md:px-10">
+    <a href="#home" class="inline-flex items-center gap-3">
+      <img src="./src/Assets/logo.png" alt="Greeners Indonesia" class="w-12 brightness-0 opacity-90" />
+      <span class="serif text-3xl font-normal tracking-tight">Greeners</span>
+    </a>
+    <p class="mx-auto mt-5 max-w-md text-sm leading-7 text-[#53645a]">Bersama menjaga lingkungan, membersihkan alam, dan menciptakan masa depan yang lebih hijau.</p>
+
+    <form id="newsletterForm" class="mx-auto mt-8 flex max-w-md">
+      <input id="newsletterEmail" type="email" required placeholder="Masukkan email kamu" class="min-w-0 flex-1 rounded-l-full border border-[#18352a]/15 bg-white px-6 py-3.5 text-sm outline-none transition placeholder:text-[#53645a]/60 focus:border-[#51AA78]" />
+      <button type="submit" class="rounded-r-full bg-[#18352a] px-7 py-3.5 text-sm font-semibold text-white transition duration-300 hover:bg-[#51AA78]">Subscribe</button>
+    </form>
+    <p id="newsletterMsg" class="mt-3 hidden text-xs font-semibold text-[#51AA78]">Terima kasih! Kamu sudah masuk daftar Greeners.</p>
+
+    <nav class="mt-10 flex flex-wrap justify-center gap-x-8 gap-y-3 text-xs font-medium text-[#53645a]">
+      <a href="#explore" class="transition hover:text-[#51AA78]">Explore</a>
+      <a href="#challenges" class="transition hover:text-[#51AA78]">Challenges</a>
+      <a href="#action" class="transition hover:text-[#51AA78]">Take Action</a>
+      <a href="#about" class="transition hover:text-[#51AA78]">About</a>
+    </nav>
+
+    <p class="mt-10 border-t border-[#18352a]/10 py-6 text-xs text-[#53645a]">© 2026 Greeners Indonesia. All Rights Reserved.</p>
+  </div>
+
+  <!-- ilustrasi landmark Indonesia: Monas, Borobudur, Prambanan, Rumah Gadang, Candi Bentar, Bromo, Raja Ampat -->
+  <div class="relative overflow-hidden"><svg class="relative left-1/2 block h-auto w-full min-w-[900px] -translate-x-1/2" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax meet" aria-hidden="true"><path d="M0 232 Q180 206 360 226 T720 222 T1080 228 T1440 214 V260 H0Z" fill="#b9d4bf" opacity=".55"/><path d="M1070 260 L1215 96 L1330 260Z" fill="#b9d4bf"/><path d="M1010 260 L1085 172 Q1115 158 1145 172 L1240 260Z" fill="#6fae8a"/><ellipse cx="1112" cy="146" rx="16" ry="9" fill="#b9d4bf" opacity=".9"/><ellipse cx="1126" cy="128" rx="12" ry="7" fill="#b9d4bf" opacity=".7"/><ellipse cx="1120" cy="112" rx="9" ry="5" fill="#b9d4bf" opacity=".5"/><path d="M46 258 Q50 188.5 64 130" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M64 130 Q42 116 24 144" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M64 130 Q86 116 104 144" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M64 130 Q44 134 34 164" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M64 130 Q84 134 94 164" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M64 130 Q62 104 64 126" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M84 258 Q80 207.2 66 164" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M66 164 Q44 150 26 178" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M66 164 Q88 150 106 178" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M66 164 Q46 168 36 198" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M66 164 Q86 168 96 198" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M66 164 Q64 138 66 160" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="108" y="238" width="104" height="22" fill="#1f4d3a"/><rect x="124" y="222" width="72" height="16" fill="#2f7a56"/><polygon points="140,222 180,222 166,84 154,84" fill="#6fae8a"/><polygon points="160,222 180,222 166,84 160,84" fill="#2f7a56"/><polygon points="146,74 174,74 168,86 152,86" fill="#1f4d3a"/><path d="M160 40 C170 54 170 66 160 74 C150 66 150 54 160 40Z" fill="#d9e86b"/><rect x="220.0" y="236" width="250" height="24" fill="#1f4d3a"/><rect x="242.0" y="214" width="206" height="22" fill="#2f7a56"/><rect x="263.0" y="194" width="164" height="20" fill="#1f4d3a"/><rect x="283.0" y="176" width="124" height="18" fill="#2f7a56"/><rect x="303.0" y="160" width="84" height="16" fill="#1f4d3a"/><ellipse cx="267.0" cy="208" rx="8" ry="7" fill="#6fae8a"/><rect x="266.0" y="195" width="2" height="6" fill="#6fae8a"/><ellipse cx="293.0" cy="208" rx="8" ry="7" fill="#6fae8a"/><rect x="292.0" y="195" width="2" height="6" fill="#6fae8a"/><ellipse cx="319.0" cy="208" rx="8" ry="7" fill="#6fae8a"/><rect x="318.0" y="195" width="2" height="6" fill="#6fae8a"/><ellipse cx="345.0" cy="208" rx="8" ry="7" fill="#6fae8a"/><rect x="344.0" y="195" width="2" height="6" fill="#6fae8a"/><ellipse cx="371.0" cy="208" rx="8" ry="7" fill="#6fae8a"/><rect x="370.0" y="195" width="2" height="6" fill="#6fae8a"/><ellipse cx="397.0" cy="208" rx="8" ry="7" fill="#6fae8a"/><rect x="396.0" y="195" width="2" height="6" fill="#6fae8a"/><ellipse cx="423.0" cy="208" rx="8" ry="7" fill="#6fae8a"/><rect x="422.0" y="195" width="2" height="6" fill="#6fae8a"/><ellipse cx="293.0" cy="188" rx="8" ry="7" fill="#6fae8a"/><rect x="292.0" y="175" width="2" height="6" fill="#6fae8a"/><ellipse cx="319.0" cy="188" rx="8" ry="7" fill="#6fae8a"/><rect x="318.0" y="175" width="2" height="6" fill="#6fae8a"/><ellipse cx="345.0" cy="188" rx="8" ry="7" fill="#6fae8a"/><rect x="344.0" y="175" width="2" height="6" fill="#6fae8a"/><ellipse cx="371.0" cy="188" rx="8" ry="7" fill="#6fae8a"/><rect x="370.0" y="175" width="2" height="6" fill="#6fae8a"/><ellipse cx="397.0" cy="188" rx="8" ry="7" fill="#6fae8a"/><rect x="396.0" y="175" width="2" height="6" fill="#6fae8a"/><ellipse cx="319.0" cy="170" rx="8" ry="7" fill="#6fae8a"/><rect x="318.0" y="157" width="2" height="6" fill="#6fae8a"/><ellipse cx="345.0" cy="170" rx="8" ry="7" fill="#6fae8a"/><rect x="344.0" y="157" width="2" height="6" fill="#6fae8a"/><ellipse cx="371.0" cy="170" rx="8" ry="7" fill="#6fae8a"/><rect x="370.0" y="157" width="2" height="6" fill="#6fae8a"/><ellipse cx="345" cy="148" rx="26" ry="20" fill="#6fae8a"/><polygon points="342,130 348,130 346,100 344,100" fill="#6fae8a"/><polygon points="340,104 350,104 345,90" fill="#2f7a56"/><polygon points="554,260 554,223 558,223 558,204 561,204 561,186 565,186 565,167 569,167 569,148 572,148 572,131 575,121 578,131 578,148 581,148 581,167 585,167 585,186 589,186 589,204 592,204 592,223 596,223 596,260" fill="#1f4d3a"/><polygon points="664,260 664,223 668,223 668,204 671,204 671,186 675,186 675,167 679,167 679,148 682,148 682,131 685,121 688,131 688,148 691,148 691,167 695,167 695,186 699,186 699,204 702,204 702,223 706,223 706,260" fill="#1f4d3a"/><polygon points="596,260 596,200 602,200 602,170 608,170 608,140 614,140 614,110 620,110 620,80 625,80 625,52 630,36 635,52 635,80 640,80 640,110 646,110 646,140 652,140 652,170 658,170 658,200 664,200 664,260" fill="#2f7a56"/><path d="M620 260 V238 a10 10 0 0 1 20 0 V260Z" fill="#f2f7f0" opacity=".85"/><rect x="770" y="228" width="130" height="32" fill="#1f4d3a"/><rect x="782" y="236" width="8" height="24" fill="#f2f7f0" opacity=".75"/><rect x="804" y="236" width="8" height="24" fill="#f2f7f0" opacity=".75"/><rect x="826" y="236" width="8" height="24" fill="#f2f7f0" opacity=".75"/><rect x="848" y="236" width="8" height="24" fill="#f2f7f0" opacity=".75"/><rect x="870" y="236" width="8" height="24" fill="#f2f7f0" opacity=".75"/><rect x="892" y="236" width="8" height="24" fill="#f2f7f0" opacity=".75"/><path d="M756 232 Q776 196 768 166 Q798 204 835 204 Q872 204 902 166 Q894 196 914 232Z" fill="#2f7a56"/><path d="M786 204 Q800 176 796 152 Q816 178 835 178 Q854 178 874 152 Q870 176 884 204Z" fill="#6fae8a"/><polygon points="958,260 958,208 966,208 966,184 974,184 974,160 983,160 988,138 996,160 1001,160 1001,260" fill="#1f4d3a"/><polygon points="1001,260 1001,208 993,208 993,184 985,184 985,160 976,160 971,138 963,160 958,160 958,260" fill="#1f4d3a"/><polygon points="970,260 970,214 978,214 978,192 986,192 986,260" fill="#2f7a56" opacity=".7"/><path d="M1265.0 260 Q1251.0 231.4 1261.0 208 Q1290 198 1319.0 208 Q1329.0 231.4 1315.0 260Z" fill="#2f7a56"/><path d="M1335.0 260 Q1321.0 238.0 1331.0 220 Q1352 210 1373.0 220 Q1383.0 238.0 1369.0 260Z" fill="#2f7a56"/><path d="M1388.0 260 Q1374.0 243.5 1384.0 230 Q1398 220 1412.0 230 Q1422.0 243.5 1408.0 260Z" fill="#2f7a56"/><path d="M1262 258 Q1258 202.8 1244 156" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1244 156 Q1222 142 1204 170" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1244 156 Q1266 142 1284 170" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1244 156 Q1224 160 1214 190" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1244 156 Q1264 160 1274 190" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1244 156 Q1242 130 1244 152" stroke="#1f4d3a" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1420 258 Q1416 213.8 1402 176" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1402 176 Q1380 162 1362 190" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1402 176 Q1424 162 1442 190" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1402 176 Q1382 180 1372 210" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1402 176 Q1422 180 1432 210" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><path d="M1402 176 Q1400 150 1402 172" stroke="#2f7a56" stroke-width="5" fill="none" stroke-linecap="round"/><rect y="254" width="1440" height="6" fill="#1f4d3a"/></svg></div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script>
+/* ===== SMOOTH SCROLL ===== */
+let lenis = null;
+if (typeof Lenis !== "undefined" && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.9, smoothWheel: true });
+  const raf = (t) => { lenis.raf(t); requestAnimationFrame(raf); };
+  requestAnimationFrame(raf);
+}
+const lockScroll = () => { document.body.style.overflow = "hidden"; lenis && lenis.stop(); };
+const unlockScroll = () => { document.body.style.overflow = ""; lenis && lenis.start(); };
+
+/* ===== LOADER ===== */
+(() => {
+  const loader = document.getElementById("loader");
+  const num = document.getElementById("loaderNum");
+  const bar = document.getElementById("loaderBar");
+  const wordEl = document.getElementById("loaderWord");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const MIN = reduce ? 500 : 2800, MAX = 7000;
+  lockScroll();
+
+  const sparks = document.getElementById("sparks");
+  if (!reduce) for (let i = 0; i < 22; i++) {
+    const d = document.createElement("span");
+    d.className = "spark";
+    d.style.left = Math.random() * 100 + "%";
+    d.style.animationDuration = 4 + Math.random() * 5 + "s";
+    d.style.animationDelay = Math.random() * 4 + "s";
+    d.style.transform = `scale(${0.6 + Math.random() * 1.4})`;
+    sparks.appendChild(d);
+  }
+
+  const words = ["Discover", "Protect", "Restore", "Take Action"];
+  let w = 0;
+  const wordTimer = setInterval(() => {
+    w = (w + 1) % words.length;
+    wordEl.textContent = words[w];
+    wordEl.classList.remove("loader-word"); void wordEl.offsetWidth; wordEl.classList.add("loader-word");
+  }, 800);
+
+  let loaded = document.readyState === "complete";
+  window.addEventListener("load", () => (loaded = true));
+  const start = performance.now();
+  let finished = false;
+
+  function finish() {
+    if (finished) return;
+    finished = true;
+    clearInterval(wordTimer);
+    num.textContent = "100";
+    bar.style.transform = "scaleX(1)";
+    setTimeout(() => {
+      loader.classList.add("done");
+      document.body.classList.add("ready");
+      setTimeout(() => { loader.remove(); unlockScroll(); }, 1200);
+    }, 350);
+  }
+
+  function tick(now) {
+    if (finished) return;
+    const el = now - start;
+    let t = Math.min(el / MIN, 1);
+    t = 1 - Math.pow(1 - t, 3);
+    if (!loaded) t = Math.min(t, 0.92);
+    num.textContent = Math.round(t * 100);
+    bar.style.transform = `scaleX(${t})`;
+    if ((t >= 1 && loaded) || el > MAX) return finish();
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+})();
+
+/* ===== HEADER ===== */
+const header = document.getElementById("siteHeader");
+const onScroll = () => header.classList.toggle("solid", window.scrollY > 60);
+window.addEventListener("scroll", onScroll, { passive: true });
+onScroll();
+
+/* ===== MENU ===== */
+const menuButton = document.getElementById("menuButton");
+const closeMenuBtn = document.getElementById("closeMenu");
+const menuOverlay = document.getElementById("menuOverlay");
+
+function openMenu() {
+  menuOverlay.classList.add("active");
+  menuButton.setAttribute("aria-expanded", "true");
+  lockScroll();
+}
+function closeNavigation() {
+  menuOverlay.classList.remove("active");
+  menuButton.setAttribute("aria-expanded", "false");
+  unlockScroll();
+}
+menuButton.addEventListener("click", openMenu);
+closeMenuBtn.addEventListener("click", closeNavigation);
+document.querySelectorAll(".menu-link").forEach((link) =>
+  link.addEventListener("click", () => setTimeout(closeNavigation, 150))
+);
+
+/* anchor link -> scroll halus */
+document.querySelectorAll('a[href^="#"]').forEach((a) =>
+  a.addEventListener("click", (e) => {
+    const target = document.querySelector(a.getAttribute("href"));
+    if (!target || !lenis) return;
+    e.preventDefault();
+    closeNavigation();
+    lenis.scrollTo(target, { duration: 1.6, easing: (t) => 1 - Math.pow(1 - t, 4) });
+  })
+);
+
+/* ===== CHALLENGES ===== */
+(() => {
+  const panels = [...document.querySelectorAll(".ch-panel")];
+  const desktop = matchMedia("(min-width: 1024px)");
+  const activate = (target) => panels.forEach((p) => {
+    const on = p === target;
+    p.classList.toggle("active", on);
+    p.setAttribute("aria-expanded", on);
+  });
+  panels.forEach((p) => {
+    p.addEventListener("click", () => activate(p));
+    p.addEventListener("focus", () => activate(p));
+    p.addEventListener("mouseenter", () => { if (desktop.matches) activate(p); });
+    p.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); activate(p); } });
+  });
+})();
+
+/* ===== NEWSLETTER ===== */
+document.getElementById("newsletterForm").addEventListener("submit", (e) => {
+  e.preventDefault();
+  document.getElementById("newsletterMsg").classList.remove("hidden");
+  e.target.reset();
+});
+
+/* ===== EXPLORE: hitung naik angka statistik ===== */
+(() => {
+  const els = [...document.querySelectorAll(".count")];
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches || !("IntersectionObserver" in window)) return;
+  const render = (el, v) => {
+    el.textContent = (el.dataset.prefix || "") + Math.round(v).toLocaleString("id-ID") + (el.dataset.suffix || "");
+  };
+  els.forEach((el) => render(el, 0));
+  const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+    if (!en.isIntersecting) return;
+    io.unobserve(en.target);
+    const el = en.target, to = +el.dataset.to, t0 = performance.now(), D = 1600;
+    const step = (now) => {
+      const t = Math.min((now - t0) / D, 1);
+      render(el, to * (1 - Math.pow(1 - t, 3)));
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }), { threshold: 0.6 });
+  els.forEach((el) => io.observe(el));
+})();
+
+/* ===== REGION MODAL ===== */
+const regions = {
+  kalimantan: { title: "Kalimantan", category: "Hutan Hujan Tropis",
+    description: "Paru-paru dunia dengan hutan hujan dan sungai-sungai besar. Rumah bagi orangutan, bekantan, dan ribuan spesies langka.",
+    tags: ["Orangutan", "Bekantan", "Hutan Hujan"] },
+  sulawesi: { title: "Sulawesi", category: "Ekosistem Endemik",
+    description: "Pulau dengan satwa yang tak ditemukan di tempat lain, dari hutan pegunungan hingga pesisir yang unik.",
+    tags: ["Anoa", "Tarsius", "Maleo"] },
+  sumatra: { title: "Sumatra", category: "Hutan & Satwa Liar",
+    description: "Hutan tropis terakhir bagi harimau, gajah, dan badak Sumatra. Menjaganya berarti menjaga warisan dunia.",
+    tags: ["Harimau", "Gajah", "Badak"] },
+  jawa: { title: "Pulau Jawa", category: "Lanskap Vulkanik",
+    description: "Deretan gunung api dan tanah subur yang menopang jutaan kehidupan, sekaligus habitat owa dan elang Jawa.",
+    tags: ["Owa Jawa", "Elang Jawa", "Gunung Api"] },
+  rajaAmpat: { title: "Raja Ampat", category: "Surga Bawah Laut",
+    description: "Pusat keanekaragaman laut dunia dengan terumbu karang dan perairan sebening kaca yang harus kita jaga.",
+    tags: ["Terumbu Karang", "Pari Manta", "Mangrove"] }
+};
+const regionKeys = Object.keys(regions);
+let currentRegion = null, lastFocus = null;
+
+const modal = document.getElementById("regionModal");
+const modalCard = document.getElementById("modalCard");
+const isModalOpen = () => !modal.classList.contains("hidden");
+
+function showRegion(key) {
+  const data = regions[key];
+  if (!data) return;
+  const wasOpen = isModalOpen();
+  currentRegion = key;
+  document.getElementById("modalCategory").textContent = data.category;
+  document.getElementById("modalTitle").textContent = data.title;
+  document.getElementById("modalDescription").textContent = data.description;
+  document.getElementById("modalCount").textContent =
+    String(regionKeys.indexOf(key) + 1).padStart(2, "0") + " / " + String(regionKeys.length).padStart(2, "0");
+  document.getElementById("modalTags").innerHTML = data.tags
+    .map((t) => `<span class="rounded-full border border-white/15 px-3 py-1.5 text-[10px] text-white/70">${t}</span>`)
+    .join("");
+  modalCard.classList.remove("modal-in"); void modalCard.offsetWidth; modalCard.classList.add("modal-in");
+  if (!wasOpen) {
+    lastFocus = document.activeElement;
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    lockScroll();
+    document.getElementById("modalClose").focus();
+  }
+}
+function stepRegion(dir) {
+  if (currentRegion === null) return;
+  const i = (regionKeys.indexOf(currentRegion) + dir + regionKeys.length) % regionKeys.length;
+  showRegion(regionKeys[i]);
+}
+function closeRegion() {
+  if (!isModalOpen()) return;
+  modal.classList.add("hidden");
+  modal.classList.remove("flex");
+  unlockScroll();
+  if (lastFocus && lastFocus.focus) lastFocus.focus();
+}
+modal.addEventListener("click", (e) => { if (e.target === modal) closeRegion(); });
+
+document.addEventListener("keydown", (e) => {
+  if (isModalOpen()) {
+    if (e.key === "Escape") closeRegion();
+    else if (e.key === "ArrowRight") stepRegion(1);
+    else if (e.key === "ArrowLeft") stepRegion(-1);
+    return;
+  }
+  if (e.key === "Escape" && menuOverlay.classList.contains("active")) closeNavigation();
+});
+
+/* ===== SOLUTION: scroll vertikal menggeser kartu ke samping ===== */
+(() => {
+  const wrap = document.getElementById("hsWrap");
+  const track = document.getElementById("hsTrack");
+  const bar = document.getElementById("hsBar");
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)");
+
+  // Tambah kategori baru cukup dengan menambah satu objek di sini.
+  // bg = warna kartu, fg = warna teks.
+  const items = [
+    { title: "Reduce", desc: "Kurangi barang sekali pakai dan kebiasaan yang menghasilkan banyak sampah.",
+      icon: '<circle cx="12" cy="12" r="9"/><path d="M8 12h8"/>',
+      bg: "#0b2419", fg: "#ffffff" },
+    { title: "Reuse", desc: "Pakai kembali barang yang masih layak supaya limbah berkurang.",
+      icon: '<path d="M20 12a8 8 0 0 0-14-5.3L4 9"/><path d="M4 4v5h5"/><path d="M4 12a8 8 0 0 0 14 5.3L20 15"/><path d="M20 20v-5h-5"/>',
+      bg: "#b4cbb5", fg: "#061810" },
+    { title: "Recycle", desc: "Pilah sampah dari rumah supaya plastik, kertas, dan logam bisa diolah lagi.",
+      icon: '<path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6 7l1 13h10l1-13"/>',
+      bg: "#2f7a56", fg: "#ffffff" },
+    { title: "Save Water", desc: "Matikan keran saat tidak dipakai dan tampung air hujan untuk menyiram tanaman.",
+      icon: '<path d="M12 3c4 5 6 8 6 11a6 6 0 0 1-12 0c0-3 2-6 6-11Z"/>',
+      bg: "#51AA78", fg: "#061810" },
+    { title: "Restore", desc: "Tanam pohon, ikut bersih-bersih, dan bantu memulihkan ekosistem.",
+      icon: '<path d="M12 21V11"/><path d="M12 11c0-4 3-6 7-6 0 4-3 6-7 6Z"/><path d="M12 14c0-3-2-5-6-5 0 3 2 5 6 5Z"/>',
+      bg: "#18352a", fg: "#ffffff" },
+    { title: "Save Energy", desc: "Matikan lampu dan cabut charger saat tidak dipakai.",
+      icon: '<path d="M13 3L5 14h6l-1 7 8-11h-6l1-7Z"/>',
+      bg: "#d9e86b", fg: "#061810" },
+    { title: "Green Move", desc: "Jalan kaki, bersepeda, atau naik transportasi umum untuk jarak dekat.",
+      icon: '<circle cx="6" cy="16" r="3.5"/><circle cx="18" cy="16" r="3.5"/><path d="M6 16l4-8h5l3 8"/><path d="M10 8H8"/>',
+      bg: "#6fae8a", fg: "#061810" },
+    { title: "Take Action", desc: "Mulai dari diri sendiri, lalu ajak orang lain menjaga lingkungan bersama.",
+      icon: '<path d="M7 17L17 7"/><path d="M8 7h9v9"/>',
+      bg: "#0b2419", fg: "#ffffff" }
+  ];
+
+  const svg = (d, cls, sw) =>
+    `<svg class="${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+
+  track.innerHTML = items.map((it, i) => {
+    const count = String(i + 1).padStart(2, "0") + " / " + String(items.length).padStart(2, "0");
+    return `<article class="relative h-full w-[280px] shrink-0 overflow-hidden rounded-[28px] md:w-[340px]" style="background:${it.bg};color:${it.fg}">
+      ${svg(it.icon, "pointer-events-none absolute -right-10 top-20 h-64 w-64 opacity-15", 0.6)}
+      <span class="absolute left-6 top-6 flex h-11 w-11 items-center justify-center rounded-full" style="border:1px solid ${it.fg}55">${svg(it.icon, "h-5 w-5", 1.5)}</span>
+      <span class="absolute right-6 top-8 text-[11px] font-semibold tracking-[0.2em] opacity-70">${count}</span>
+      <div class="absolute inset-x-0 bottom-0 p-7">
+        <h3 class="text-3xl font-semibold tracking-[-0.05em]">${it.title}</h3>
+        <p class="mt-3 text-sm leading-6 opacity-75">${it.desc}</p>
+      </div>
+    </article>`;
+  }).join("");
+
+
+  let dist = 0, ticking = false;
+
+  function update() {
+    ticking = false;
+    if (reduce.matches) return;
+    const max = wrap.offsetHeight - window.innerHeight;
+    const p = max > 0 ? Math.min(1, Math.max(0, -wrap.getBoundingClientRect().top / max)) : 0;
+    track.style.transform = `translate3d(${-p * dist}px,0,0)`;
+    bar.style.transform = `scaleX(${p})`;
+  }
+
+  function measure() {
+    if (reduce.matches) { wrap.classList.add("hs-native"); wrap.style.height = ""; return; }
+    wrap.classList.remove("hs-native");
+    dist = Math.max(0, track.scrollWidth - window.innerWidth);
+    wrap.style.height = window.innerHeight + dist + "px";
+    update();
+  }
+
+  window.addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  window.addEventListener("resize", measure);
+  window.addEventListener("load", measure);
+  measure();
+})();
+</script>
+</body>
+</html>
