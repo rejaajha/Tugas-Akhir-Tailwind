@@ -4,458 +4,486 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Greeners Indonesia</title>
+    <link rel="shortcut icon" href="./src/Assets/logo.png" type="image/x-icon">
     <link rel="stylesheet" href="./src/output.css" />
+    <script>
+      (function () {
+        var s = localStorage.getItem("theme");
+        var d = matchMedia("(prefers-color-scheme: dark)").matches;
+        if (s === "dark" || (!s && d)) document.documentElement.classList.add("dark");
+      })();
+    </script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
     </style>
   </head>
-  <body class="font-montserrat">
+  <body class="bg-stone-50 font-montserrat text-teal-950 transition-colors duration-300 dark:bg-teal-950 dark:text-stone-50">
     <!-- Navigasi -->
-    <header class="flex justify-between p-7">
-      <div class="flex items-center gap-2">
-        <img src="./src/Assets/logo.png" alt="logo" class="w-15" />
-        <h1 class="text-xl tracking-widest text-teal-950">
-          Greeners Indonesia
-        </h1>
-      </div>
+    <header
+      id="navbar"
+      class="sticky top-0 z-40 border-b border-transparent bg-stone-50/80 backdrop-blur-md dark:bg-teal-950/80 transition-all duration-300 "
+    >
+      <nav class="mx-auto flex items-center justify-between px-5 py-6 md:px-10">
+        <a href="#home" class="flex items-center gap-2">
+          <img src="./src/Assets/logo.png" alt="Logo Greeners Indonesia" class="size-10 object-contain" />
+          <span class="text-lg font-semibold tracking-widest text-teal-950 dark:text-stone-50 md:text-xl">Greeners Indonesia</span>
+        </a>
+ 
+        <ul class="hidden items-center gap-1 font-medium md:flex">
+          <li><a href="#home" class="nav-link">Home</a></li>
+          <li><a href="#explore" class="nav-link">Explore</a></li>
+          <li><a href="#challenges" class="nav-link">Challenges</a></li>
+          <li><a href="#action" class="nav-link">Take Action</a></li>
+          <li><a href="#about" class="nav-link">More</a></li>
+        </ul>
 
-      <div class="flex items-center">
-        <ul class="flex gap-3 font-medium">
-          <li><a href="home">Home</a></li>
-          <li><a href="explore">Explore</a></li>
-          <li><a href="challenges">Challenges</a></li>
-          <li><a href="action">Take Action</a></li>
-          <li><a href="about">About</a></li>
+        
+ 
+        <div class="flex items-center gap-2">
+          <button class="font-normal cursor-pointer rounded-2xl bg-emerald-500 px-5 py-2 text-white transition hover:brightness-110 hidden md:block">Subscribe</button>
+
+          <button id="theme-toggle" type="button" aria-label="Ganti tema"
+            class="grid size-10 place-items-center rounded-full transition hover:bg-olive-300 active:scale-90 dark:hover:bg-mist-900">
+            <svg class="size-5 dark:hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+            </svg>
+            <svg class="hidden size-5 dark:block" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="4" />
+              <path stroke-linecap="round" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41" />
+            </svg>
+          </button>
+ 
+          <button id="menu-toggle" type="button" aria-label="Buka menu" aria-expanded="false" aria-controls="mobile-menu"
+            class="group grid size-10 place-items-center rounded-full transition hover:bg-olive-50 dark:hover:bg-mist-900 md:hidden">
+            <span class="flex w-5 flex-col gap-1.5">
+              <span class="h-0.5 rounded bg-current transition-all duration-300 group-aria-expanded:translate-y-2 group-aria-expanded:rotate-45"></span>
+              <span class="h-0.5 rounded bg-current transition-all duration-300 group-aria-expanded:opacity-0"></span>
+              <span class="h-0.5 rounded bg-current transition-all duration-300 group-aria-expanded:-translate-y-2 group-aria-expanded:-rotate-45"></span>
+            </span>
+          </button>
+        </div>
+      </nav>
+ 
+      <div id="mobile-menu" data-open="false"
+        class="grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 data-[open=true]:grid-rows-[1fr] md:hidden">
+        <ul class="overflow-hidden px-5 font-medium">
+          <li><a href="#home" class="block rounded-lg px-3 py-3 text-teal-950 transition-colors hover:bg-olive-50 hover:text-olive-500 dark:text-stone-50 dark:hover:bg-mist-900 dark:hover:text-olive-500">Home</a></li>
+          <li><a href="#explore" class="block rounded-lg px-3 py-3 text-teal-950 transition-colors hover:bg-olive-50 hover:text-olive-500 dark:text-stone-50 dark:hover:bg-mist-900 dark:hover:text-olive-500">Explore</a></li>
+          <li><a href="#challenges" class="block rounded-lg px-3 py-3 text-teal-950 transition-colors hover:bg-olive-50 hover:text-olive-500 dark:text-stone-50 dark:hover:bg-mist-900 dark:hover:text-olive-500">Challenges</a></li>
+          <li><a href="#action" class="block rounded-lg px-3 py-3 text-teal-950 transition-colors hover:bg-olive-50 hover:text-olive-500 dark:text-stone-50 dark:hover:bg-mist-900 dark:hover:text-olive-500">Take Action</a></li>
+          <li><a href="#about" class="block rounded-lg px-3 py-3 text-teal-950 transition-colors hover:bg-olive-50 hover:text-olive-500 dark:text-stone-50 dark:hover:bg-mist-900 dark:hover:text-olive-500 mb-4">About</a></li>
         </ul>
       </div>
     </header>
     <!-- Navigasi -->
+ 
+    <!-- Hero section -->
+    <section id="home" class="relative flex min-h-screen flex-col justify-end overflow-hidden ">
+  <img src="./src/Assets/Hero img.jpg" class="absolute object-cover">
 
-    <!--Hero section-->
-    <!--Hero section-->
+  <div class="relative z-20 px-6 pb-12 pt-32 md:px-14 md:pb-16">
+    
+    <h1 class=" hero-title text-[clamp(2.75rem,10.5vw,9.5rem)] font-semibold leading-[0.88] tracking-[-0.07em] text-white">
+      Protect Our
+      <span class="block font-normal italic text-[#b4cbb5]">Nature.</span>
+    </h1>
 
+    <div class="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
+      <p class="reveal d1 max-w-md text-sm leading-7 text-white/80 md:text-base">Discover the natural treasures of Indonesia and become part of a movement to protect what matters.</p>
+    </div>
+  </div>
+</section>
+    <!-- Hero section -->
+ 
     <!-- Natural Treasure Start -->
-    <section class="p-15 flex flex-col gap-20 bg-green-50">
-      <div class="flex flex-row justify-between items-center gap-5">
+    <section id="explore" class="px-5 py-14 md:px-10 md:py-20 lg:px-16 flex flex-col gap-10 md:gap-16 bg-emerald-50 dark:bg-emerald-950">
+      <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div class="flex flex-col">
-          <h2 class="text-[24px] font-thin tracking-[10px] font-Montserrat">
-            introducing
-          </h2>
-
-          <h1 class="text-[50px] font-medium font-serif">
-            Indonesia natural treasure
-          </h1>
+          <h2 class="text-lg font-thin tracking-[6px] md:text-2xl md:tracking-[10px]">introducing</h2>
+          <h1 class="font-serif text-3xl font-medium md:text-5xl">Indonesia natural treasure</h1>
         </div>
-
-        <div class="text-[18px] font-thin font-Montserrat max-w-[300px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-          accusamus dicta vel animi quos eveniet in, enim maiores sit natus,
-          iste saepe.
-        </div>
+        <p class="max-w-sm text-base font-thin md:text-lg">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, accusamus dicta vel animi quos eveniet in,
+          enim maiores sit natus, iste saepe.
+        </p>
       </div>
-
-      <!-- intreractive map -->
-      <div class="relative w-full max-w-7xl mx-auto min-h-[700px]">
-        <!-- MAP -->
-        <img
-          src="./src/Assets/peta.png"
-          alt="Indonesia Natural Treasure"
-          class="absolute inset-0 w-full h-full object-contain"
-        />
-
-        <!-- KALIMANTAN -->
-        <button
-          onclick="showRegion('kalimantan')"
-          class="absolute top-0 left-[25%] w-[310px] cursor-pointer transition duration-300 hover:scale-105"
-        >
-          <img
-            src="./src/Assets/Kalimantan.png"
-            alt="Kalimantan"
-            class="w-full"
-          />
+ 
+      <!-- Peta interaktif: grid 2 kolom di mobile, posisi absolut mulai md -->
+      <div class="relative mx-auto grid w-full max-w-7xl grid-cols-2 gap-4 md:block md:min-h-[700px]">
+        <img src="./src/Assets/peta.png" alt="Peta Indonesia Natural Treasure"
+          class="pointer-events-none absolute inset-0 hidden h-full w-full object-contain md:block" />
+ 
+        <button onclick="showRegion('kalimantan')" class="w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:w-[26%] md:min-w-[200px] md:max-w-[310px] md:top-0 md:left-[25%]">
+          <img src="./src/Assets/Kalimantan.png" alt="Kalimantan" class="w-full" />
         </button>
-
-        <!-- SULAWESI -->
-        <button
-          onclick="showRegion('sulawesi')"
-          class="absolute top-[2%] right-[18%] w-[310px] cursor-pointer transition duration-300 hover:scale-105"
-        >
+        <button onclick="showRegion('sulawesi')" class="w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:w-[26%] md:min-w-[200px] md:max-w-[310px] md:top-[2%] md:right-[18%]">
           <img src="./src/Assets/Sulawesi.png" alt="Sulawesi" class="w-full" />
         </button>
-
-        <!-- SUMATRA -->
-        <button
-          onclick="showRegion('sumatra')"
-          class="absolute bottom-[15%] left-0 w-[310px] cursor-pointer transition duration-300 hover:scale-105"
-        >
+        <button onclick="showRegion('sumatra')" class="w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:w-[26%] md:min-w-[200px] md:max-w-[310px] md:bottom-[15%] md:left-0">
           <img src="./src/Assets/Sumatra.png" alt="Sumatra" class="w-full" />
         </button>
-
-        <!-- JAWA -->
-        <button
-          onclick="showRegion('jawa')"
-          class="absolute bottom-0 left-[31%] w-[310px] cursor-pointer transition duration-300 hover:scale-105"
-        >
-          <img src="./src/Assets/Jawa.png" alt="Pulau Jawa" class="w-full" />
+        <button onclick="showRegion('jawa')" class="w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:w-[26%] md:min-w-[200px] md:max-w-[310px] md:bottom-0 md:left-[31%]">
+          <img src="./src/Assets/Pulau Jawa.png" alt="Pulau Jawa" class="w-full" />
         </button>
-
-        <!-- RAJA AMPAT -->
-        <button
-          onclick="showRegion('rajaAmpat')"
-          class="absolute bottom-[13%] right-0 w-[310px] cursor-pointer transition duration-300 hover:scale-105"
-        >
-          <img
-            src="./src/Assets/Raja Ampat.png"
-            alt="Raja Ampat"
-            class="w-full"
-          />
+        <button onclick="showRegion('rajaAmpat')" class="w-full cursor-pointer transition duration-300 hover:scale-105 md:absolute md:w-[26%] md:min-w-[200px] md:max-w-[310px] col-span-2 mx-auto max-w-[60%] md:bottom-[13%] md:right-0 md:mx-0">
+          <img src="./src/Assets/Raja Ampat.png" alt="Raja Ampat" class="w-full" />
         </button>
       </div>
-      <!-- Interactive map -->
+ 
       <!-- Modal -->
-      <!-- MODAL -->
-      <div
-        id="regionModal"
-        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm px-6"
-      >
-        <div
-          class="relative w-full max-w-lg rounded-3xl bg-white p-8 shadow-2xl"
-        >
-          <!-- CLOSE BUTTON -->
-          <button
-            onclick="closeRegion()"
-            class="absolute right-5 top-5 w-9 h-9 rounded-full bg-black/5 hover:bg-black/10 transition"
-          >
-            ×
-          </button>
-
-          <!-- CONTENT -->
-          <p
-            id="modalCategory"
-            class="text-sm font-semibold uppercase tracking-widest text-[#51AA78]"
-          >
-            Natural Treasure
-          </p>
-
-          <h2 id="modalTitle" class="text-3xl font-bold mt-3 text-[#2C2C2C]">
-            Kalimantan
-          </h2>
-
-          <p id="modalDescription" class="text-gray-500 leading-relaxed mt-5">
-            Description
-          </p>
+      <div id="regionModal" role="dialog" aria-modal="true" aria-labelledby="modalTitle"
+        class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 px-5 backdrop-blur-sm">
+        <div class="relative w-full max-w-lg rounded-3xl bg-stone-50 p-6 shadow-2xl dark:bg-mist-900 md:p-8">
+          <button onclick="closeRegion()" aria-label="Tutup"
+            class="absolute right-5 top-5 h-9 w-9 rounded-full bg-black/5 transition hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20">×</button>
+          <p id="modalCategory" class="text-sm font-semibold uppercase tracking-widest text-emerald-500">Natural Treasure</p>
+          <h2 id="modalTitle" class="mt-3 text-2xl font-bold md:text-3xl">Kalimantan</h2>
+          <p id="modalDescription" class="mt-5 leading-relaxed text-mist-600 dark:text-mist-200">Description</p>
         </div>
       </div>
       <!-- Modal -->
     </section>
     <!-- Natural Treasure End -->
-
+ 
     <!-- Environmental Challenges Start -->
-    <section class="p-15 flex flex-col gap-20 bg-white pt-20">
-      <div class="flex flex-row justify-between items-center gap-5">
+    <section id="challenges" class="px-5 py-14 md:px-10 md:py-20 lg:px-16 flex flex-col gap-10 md:gap-16 bg-stone-50 dark:bg-slate-900">
+      <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div class="flex flex-col">
-          <h2 class="text-[24px] font-thin tracking-[10px] font-Montserrat">
-            The Problems
-          </h2>
-          <h1 class="text-[50px] font-medium font-serif max-w-[700px]">
-            Indonesia Environmental Challenges
-          </h1>
+          <h2 class="text-lg font-thin tracking-[6px] md:text-2xl md:tracking-[10px]">The Problems</h2>
+          <h1 class="font-serif text-3xl font-medium md:text-5xl max-w-[700px]">Indonesia Environmental Challenges</h1>
         </div>
-
-        <div class="text-[18px] font-thin font-Montserrat max-w-[300px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-          accusamus dicta vel animi quos eveniet in, enim maiores sit natus,
-          iste saepe.
-        </div>
+        <p class="max-w-sm text-base font-thin md:text-lg">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, accusamus dicta vel animi quos eveniet in,
+          enim maiores sit natus, iste saepe.
+        </p>
       </div>
+ 
+      
+<!-- Cards Grid -->
+<div
+  class="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8"
+>
+  <!-- Plastic Waste -->
+  <article class="group relative h-[420px] w-full overflow-hidden rounded-2xl md:h-[480px] shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <img
+      src="./src/Assets/Waste.png"
+      alt="Plastic Waste"
+      class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+    />
 
-      <div class="flex flex-row items-center justify-center gap-[100px]">
-        <div class="flex flex-col relative">
-          <img
-            src="./src/Assets/Waste.png"
-            alt="Plastic Waste"
-            class="object-cover w-[250px] h-auto"
-          />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 
-          <h1
-            class="text-[24px] font-medium font-serif text-[#FFFFFF] absolute top-66 left-3"
-          >
-            Plastic Waste
-          </h1>
+    <div class="absolute inset-x-0 bottom-0 p-5 text-white">
+      <h3 class="font-serif text-2xl font-medium">Plastic Waste</h3>
+      <p class="mt-1 font-serif text-sm font-light">
+        Plastic pollution threatens Indonesia's oceans, marine wildlife,
+        and coastal communities.
+      </p>
+    </div>
+  </article>
 
-          <p
-            class="text-[16px] font-thin font-serif text-[#FFFFFF] absolute top-77 left-3"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-            accusamus dicta animi quos eveniet.
-          </p>
-        </div>
+  <!-- Deforestation -->
+  <article class="group relative h-[420px] w-full overflow-hidden rounded-2xl md:h-[480px] shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <img
+      src="./src/Assets/Deforestation.png"
+      alt="Deforestation"
+      class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+    />
 
-        <div class="flex flex-col relative">
-          <img
-            src="./src/Assets/Deforestation.png"
-            alt="Plastic Waste"
-            class="object-cover w-[250px] h-auto"
-          />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 
-          <h1
-            class="text-[24px] font-medium font-serif text-[#FFFFFF] absolute top-66 left-3"
-          >
-            Deforestation
-          </h1>
+    <div class="absolute inset-x-0 bottom-0 p-5 text-white">
+      <h3 class="font-serif text-2xl font-medium">Deforestation</h3>
+      <p class="mt-1 font-serif text-sm font-light">
+        Forest loss destroys natural habitats, reduces biodiversity,
+        and contributes to climate change.
+      </p>
+    </div>
+  </article>
 
-          <p
-            class="text-[16px] font-thin font-serif text-[#FFFFFF] absolute top-77 left-3"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-            accusamus dicta animi quos eveniet.
-          </p>
-        </div>
+  <!-- Air Pollution -->
+  <article class="group relative h-[420px] w-full overflow-hidden rounded-2xl md:h-[480px] shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <img
+      src="./src/Assets/Air Polution'.png"
+      alt="Air Pollution"
+      class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+    />
 
-        <div class="flex flex-col relative">
-          <img
-            src="./src/Assets/Air Polution'.png"
-            alt="Plastic Waste"
-            class="object-cover w-[250px] h-auto"
-          />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 
-          <h1
-            class="text-[24px] font-medium font-serif text-[#FFFFFF] absolute top-66 left-3"
-          >
-            Air Polution
-          </h1>
+    <div class="absolute inset-x-0 bottom-0 p-5 text-white">
+      <h3 class="font-serif text-2xl font-medium">Air Pollution</h3>
+      <p class="mt-1 font-serif text-sm font-light">
+        Vehicle emissions, industrial activities, and forest fires
+        contribute to unhealthy air quality.
+      </p>
+    </div>
+  </article>
 
-          <p
-            class="text-[16px] font-thin font-serif text-[#FFFFFF] absolute top-77 left-3"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-            accusamus dicta animi quos eveniet.
-          </p>
-        </div>
+  <!-- Wildlife Conflict -->
+  <article class="group relative h-[420px] w-full overflow-hidden rounded-2xl md:h-[480px] shadow-md transition duration-300 hover:-translate-y-1 hover:shadow-xl">
+    <img
+      src="./src/Assets/Human-widelife.png"
+      alt="Wildlife conflict"
+      class="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-105"
+    />
 
-        <div class="flex flex-col relative">
-          <img
-            src="./src/Assets/Human-widelife.png"
-            alt="Plastic Waste"
-            class="object-cover w-[250px] h-auto"
-          />
+    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 
-          <h1
-            class="text-[24px] font-medium font-serif text-[#FFFFFF] absolute top-66 left-3"
-          >
-            Wildlife conflict
-          </h1>
-
-          <p
-            class="text-[16px] font-thin font-serif text-[#FFFFFF] absolute top-77 left-3"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-            accusamus dicta animi quos eveniet.
-          </p>
-        </div>
-      </div>
+    <div class="absolute inset-x-0 bottom-0 p-5 text-white">
+      <h3 class="font-serif text-2xl font-medium">Wildlife Conflict</h3>
+      <p class="mt-1 font-serif text-sm font-light">
+        Habitat destruction brings wildlife and human communities
+        into closer contact, increasing conflict.
+      </p>
+    </div>
+  </article>
+</div>
     </section>
     <!-- Environmental Challenges End -->
-
+ 
     <!-- Solution Start -->
-    <section class="p-15 flex flex-col gap-20 bg-green-50 pt-20">
-      <div class="flex flex-row justify-between items-center gap-5">
+    <section id="action" class="px-5 py-14 md:px-10 md:py-20 lg:px-16 flex flex-col gap-10 md:gap-16 bg-green-50 dark:bg-emerald-950">
+      <div class="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <div class="flex flex-col">
-          <h2 class="text-[24px] font-thin tracking-[10px] font-Montserrat">
-            The Solution
-          </h2>
-
-          <h1 class="text-[50px] font-medium font-serif">
-            Small <span class="font-bold">Actions.</span> Big impact
-          </h1>
+          <h2 class="text-lg font-thin tracking-[6px] md:text-2xl md:tracking-[10px]">The Solution</h2>
+          <h1 class="font-serif text-3xl font-medium md:text-5xl">Small <span class="font-bold">Actions.</span> Big impact</h1>
         </div>
-
-        <div class="text-[18px] font-thin font-Montserrat max-w-[300px]">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-          accusamus dicta vel animi quos eveniet in, enim maiores sit natus,
-          iste saepe.
-        </div>
+        <p class="max-w-sm text-base font-thin md:text-lg">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, accusamus dicta vel animi quos eveniet in,
+          enim maiores sit natus, iste saepe.
+        </p>
       </div>
-
-      <div class="flex flex-row justify-between gap-10 item-center">
-        <div
-          class="flex flex-col gap-5 bg-white p-5 rounded-xl shadow-lg max-w-[350px] h-[auto]"
-        >
-          <img
-            src="./src/Assets/Vector.png"
-            alt="Reduce"
-            class="w-[20px] h-auto pt-[10px]"
-          />
-          <h2
-            class="font-bold font-montserrat tracking-[5px] text-[24px] text-[#4A6B6A]"
-          >
-            Reduce
-          </h2>
-
-          <p
-            class="max-w-[250px] text-[16px] font-regular font-montserrat text-[#4A6B6A]"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-            accusamus dicta vel animi quos eveniet in.
-          </p>
-
-          <p>
-            <a href="#" class="text-[#4A6B6A] hover:underline font-regular"
-              >Details</a
-            >
-          </p>
+ 
+      <div class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div class="flex flex-col gap-5 rounded-xl bg-stone-50 p-5 shadow-lg dark:bg-mist-900 dark:shadow-none dark:ring-1 dark:ring-mist-800">
+          <img src="./src/Assets/Vector.png" alt="" class="h-auto w-5 pt-2.5 dark:invert" />
+          <h2 class="text-2xl font-bold tracking-[5px] text-mist-600 dark:text-mist-200">Reduce</h2>
+          <p class="text-base text-mist-600 dark:text-mist-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, accusamus dicta vel animi quos eveniet in.</p>
+          <a href="#" class="text-mist-600 hover:underline dark:text-mist-200">Details</a>
         </div>
-
-        <div
-          class="flex flex-col gap-5 bg-white p-5 rounded-xl shadow-lg max-w-[350px] h-[auto]"
-        >
-          <img
-            src="./src/Assets/Vector.png"
-            alt="Reduce"
-            class="w-[20px] h-auto pt-[10px]"
-          />
-          <h2
-            class="font-bold font-montserrat tracking-[5px] text-[24px] text-[#4A6B6A]"
-          >
-            Reduce
-          </h2>
-
-          <p
-            class="max-w-[250px] text-[16px] font-regular font-montserrat text-[#4A6B6A]"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-            accusamus dicta vel animi quos eveniet in.
-          </p>
-
-          <p>
-            <a href="#" class="text-[#4A6B6A] hover:underline font-regular"
-              >Details</a
-            >
-          </p>
+ 
+        <div class="flex flex-col gap-5 rounded-xl bg-stone-50 p-5 shadow-lg dark:bg-mist-900 dark:shadow-none dark:ring-1 dark:ring-mist-800">
+          <img src="./src/Assets/Vector.png" alt="" class="h-auto w-5 pt-2.5 dark:invert" />
+          <h2 class="text-2xl font-bold tracking-[5px] text-mist-600 dark:text-mist-200">Reuse</h2>
+          <p class="text-base text-mist-600 dark:text-mist-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, accusamus dicta vel animi quos eveniet in.</p>
+          <a href="#" class="text-mist-600 hover:underline dark:text-mist-200">Details</a>
         </div>
-
-        <div
-          class="flex flex-col gap-5 bg-white p-5 rounded-xl shadow-lg max-w-[350px] h-[auto]"
-        >
-          <img
-            src="./src/Assets/Vector.png"
-            alt="Reduce"
-            class="w-[20px] h-auto pt-[10px]"
-          />
-          <h2
-            class="font-bold font-montserrat tracking-[5px] text-[24px] text-[#4A6B6A]"
-          >
-            Reduce
-          </h2>
-
-          <p
-            class="max-w-[250px] text-[16px] font-regular font-montserrat text-[#4A6B6A]"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-            accusamus dicta vel animi quos eveniet in.
-          </p>
-
-          <p>
-            <a href="#" class="text-[#4A6B6A] hover:underline font-regular"
-              >Details</a
-            >
-          </p>
+ 
+        <div class="flex flex-col gap-5 rounded-xl bg-stone-50 p-5 shadow-lg dark:bg-mist-900 dark:shadow-none dark:ring-1 dark:ring-mist-800">
+          <img src="./src/Assets/Vector.png" alt="" class="h-auto w-5 pt-2.5 dark:invert" />
+          <h2 class="text-2xl font-bold tracking-[5px] text-mist-600 dark:text-mist-200">Recycle</h2>
+          <p class="text-base text-mist-600 dark:text-mist-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, accusamus dicta vel animi quos eveniet in.</p>
+          <a href="#" class="text-mist-600 hover:underline dark:text-mist-200">Details</a>
         </div>
-
-        <div
-          class="flex flex-col gap-5 bg-white p-5 rounded-xl shadow-lg max-w-[350px] h-[auto]"
-        >
-          <img
-            src="./src/Assets/Vector.png"
-            alt="Reduce"
-            class="w-[20px] h-auto pt-[10px]"
-          />
-          <h2
-            class="font-bold font-montserrat tracking-[5px] text-[24px] text-[#4A6B6A]"
-          >
-            Reduce
-          </h2>
-
-          <p
-            class="max-w-[250px] text-[16px] font-regular font-montserrat text-[#4A6B6A]"
-          >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus,
-            accusamus dicta vel animi quos eveniet in.
-          </p>
-
-          <p>
-            <a href="#" class="text-[#4A6B6A] hover:underline font-regular"
-              >Details</a
-            >
-          </p>
+ 
+        <div class="flex flex-col gap-5 rounded-xl bg-stone-50 p-5 shadow-lg dark:bg-mist-900 dark:shadow-none dark:ring-1 dark:ring-mist-800">
+          <img src="./src/Assets/Vector.png" alt="" class="h-auto w-5 pt-2.5 dark:invert" />
+          <h2 class="text-2xl font-bold tracking-[5px] text-mist-600 dark:text-mist-200">Restore</h2>
+          <p class="text-base text-mist-600 dark:text-mist-200">Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, accusamus dicta vel animi quos eveniet in.</p>
+          <a href="#" class="text-mist-600 hover:underline dark:text-mist-200">Details</a>
         </div>
       </div>
     </section>
     <!-- Solution End -->
-    <!-- script -->
+ 
+    <!-- Indo Green Fact Start -->
+    <section id="about" class="bg-lime-50 dark:bg-teal-950 px-5 py-14 text-teal-900 dark:text-white md:px-10 md:py-16">
+      <div class="pb-10 text-center md:pb-12">
+        <h2 class="text-base tracking-[5px] md:text-xl">INDONESIA’S GREEN FACT</h2>
+        <h1 class="font-serif text-3xl font-light md:text-5xl">Every Action Matters</h1>
+      </div>
+ 
+      <div class="mx-auto grid max-w-5xl grid-cols-2 text-center lg:grid-cols-4">
+        <div class="flex flex-col items-center border-r border-b border-teal-900 dark:border-white/40 p-6 md:p-10 lg:border-b-0">
+          <img src="./src/Assets/Island.png" alt="" class="w-12 pb-5 hidden dark:block" />
+          <img src="./src/Assets/island dark.png" alt="" class="w-12 pb-5 block dark:hidden" />
+          <h2 class="font-serif text-2xl md:text-3xl">17k+ Island</h2>
+          <p class="max-w-[200px] text-sm md:text-base">Across the Indonesian archipelago</p>
+        </div>
+        <div class="flex flex-col items-center border-b border-teal-900 dark:border-white/40 p-6 md:p-10 lg:border-r lg:border-b-0">
+          <img src="./src/Assets/People.png" alt="" class="w-12 pb-5 hidden dark:block" />
+          <img src="./src/Assets/people dark.png" alt="" class="w-12 pb-5 block dark:hidden" />
+          <h2 class="font-serif text-2xl md:text-3xl">270M+ People</h2>
+          <p class="max-w-[200px] text-sm md:text-base">Living in Indonesia</p>
+        </div>
+        <div class="flex flex-col items-center border-r border-teal-900 dark:border-white/40 p-6 md:p-10">
+          <img src="./src/Assets/Parks.png" alt="" class="w-12 pb-5 hidden dark:block" />
+          <img src="./src/Assets/landscape dark.png" alt="" class="w-12 pb-5 block dark:hidden" />
+          <h2 class="font-serif text-2xl md:text-3xl">60+ National Parks</h2>
+          <p class="max-w-[200px] text-sm md:text-base">Protecting unique biodiversity</p>
+        </div>
+        <div class="flex flex-col items-center p-6 md:p-10">
+          <img src="./src/Assets/World.png" alt="" class="w-12 pb-5 hidden dark:block" />
+          <img src="./src/Assets/coral dark.png" alt="" class="w-12 pb-5 block dark:hidden" />
+          <h2 class="font-serif text-2xl md:text-3xl">20% Of World's</h2>
+          <p class="max-w-[200px] text-sm md:text-base">Coral reefs found in Indonesia</p>
+        </div>
+      </div>
+    </section>
+    <!-- Indo Green Fact End -->
+ 
+    <!-- CTA Start -->
+    <section class="bg-stone-50 dark:bg-mist-900 px-5 py-6 ">
+      <div class="relative   overflow-hidden rounded-2xl shadow-lg">
+        <img src="./src/Assets/Img-r.png" alt="" class="min-h-[460px] w-full object-cover md:min-h-[100px]" />
+        <div class="absolute inset-0 flex flex-col justify-center gap-4 bg-black/40 p-6 text-white md:p-16">
+          <h2 class="text-base tracking-[5px] md:text-2xl">IT'S TIME TO ACT</h2>
+          <h1 class="max-w-[400px] font-serif text-3xl font-light md:text-5xl">The Future Is in Our Hands</h1>
+          <p class="max-w-[260px] text-sm font-light md:text-base">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus, accusamus dicta vel animi quos eveniet
+            in, enim maiores sit natus, iste saepe.
+          </p>
+          <button class="w-fit font-normal cursor-pointer rounded-2xl bg-emerald-500 px-5 py-3 text-white transition hover:brightness-110">
+            Start Your Green Journey >
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- CTA End -->
+ 
+    <!-- Footer Start -->
+<footer class="bg-lime-50 px-5 dark:bg-teal-950 text-teal-900 dark:text-white md:px-10">
+  <div class="mx-auto max-w-5xl">
+    <!-- Newsletter -->
+    <div
+      class="flex flex-col items-start gap-5 border-b border-teal-950 dark:border-white py-8 md:flex-row md:items-center md:justify-between md:py-10"
+    >
+      <h2 class="max-w-[260px] text-lg font-medium md:text-xl">
+        Join our newsletter to keep up to date with us!
+      </h2>
+
+      <button
+        class="cursor-pointer rounded-2xl bg-emerald-500 px-4 py-1.5 text-white transition hover:brightness-110"
+      >
+        Subscribe
+      </button>
+    </div>
+
+    <!-- Brand & Navigation -->
+    <div
+      class="flex flex-col gap-8 border-b border-teal-950 dark:border-white py-8 md:flex-row md:justify-between md:py-10"
+    >
+      <!-- Brand -->
+      <div class="flex flex-col gap-1.5">
+        <img
+          src="./src/Assets/logo.png"
+          alt="Logo"
+          class="w-12"
+        />
+
+        <h2 class="text-2xl font-semibold tracking-widest">
+          Greeners
+        </h2>
+
+        <p class="text-sm tracking-[4px] md:text-base md:tracking-[5px]">
+          Explore Nature, Protect Our Home
+        </p>
+      </div>
+
+      <!-- Navigation -->
+      <div class="flex flex-col gap-1.5">
+        <a href="#" class="hover:text-emerald-500">
+          Platform
+        </a>
+        <a href="#about" class="hover:text-emerald-500">
+          About
+        </a>
+        <a href="#" class="hover:text-emerald-500">
+          Contact
+        </a>
+        <a href="#" class="hover:text-emerald-500">
+          AI Manager
+        </a>
+      </div>
+    </div>
+
+    <!-- Copyright & Legal Links -->
+    <div
+      class="flex flex-col gap-4 py-8 text-sm md:flex-row md:justify-between md:text-base"
+    >
+      <p>
+        © 2026 Green Indonesia. Made for a Green Future
+      </p>
+
+      <div class="flex flex-wrap gap-x-5 gap-y-2">
+        <a href="#" class="hover:text-emerald-500">
+          Terms of Service
+        </a>
+        <a href="#" class="hover:text-emerald-500">
+          Privacy Policy
+        </a>
+        <a href="#" class="hover:text-emerald-500">
+          Cookies
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
+    <!-- Footer End -->
+ 
     <script>
-      const regions = {
-        kalimantan: {
-          title: "Kalimantan",
-          category: "Tropical Rainforests",
-          description:
-            "Kalimantan is home to vast tropical rainforests, rivers, and incredible biodiversity. Its forests provide important habitats for orangutans and many other species while playing an important role in maintaining the balance of nature.",
-        },
-
-        sulawesi: {
-          title: "Sulawesi",
-          category: "Unique Ecosystems",
-          description:
-            "Sulawesi is known for its unique landscapes and biodiversity. The island is home to many species that cannot be found anywhere else, making its forests, mountains, and coastal ecosystems valuable natural treasures.",
-        },
-
-        sumatra: {
-          title: "Sumatra",
-          category: "Wildlife & Forests",
-          description:
-            "Sumatra contains some of Indonesia's most important tropical forests. These ecosystems provide habitats for incredible wildlife such as orangutans, elephants, and tigers while supporting a wide range of plant and animal species.",
-        },
-
-        jawa: {
-          title: "Pulau Jawa",
-          category: "Volcanic Landscapes",
-          description:
-            "Java is known for its volcanic mountains, fertile landscapes, and diverse ecosystems. Its forests and mountainous areas provide important habitats while the volcanic soil supports rich agricultural environments.",
-        },
-
-        rajaAmpat: {
-          title: "Raja Ampat",
-          category: "Marine Ecosystem",
-          description:
-            "Raja Ampat is one of Indonesia's most remarkable marine regions. Its crystal-clear waters, coral reefs, mangroves, and rich marine biodiversity make it an important ecosystem that deserves to be protected.",
-        },
+      const root = document.documentElement;
+      const themeToggle = document.getElementById("theme-toggle");
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      const navbar = document.getElementById("navbar");
+ 
+      /* Dark mode */
+      themeToggle.addEventListener("click", () => {
+        const isDark = root.classList.toggle("dark");
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+      matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+        if (!localStorage.getItem("theme")) root.classList.toggle("dark", e.matches);
+      });
+ 
+      /* Menu mobile */
+      function setMenu(open) {
+        menuToggle.setAttribute("aria-expanded", open);
+        menuToggle.setAttribute("aria-label", open ? "Tutup menu" : "Buka menu");
+        mobileMenu.dataset.open = open;
+      }
+      menuToggle.addEventListener("click", () => setMenu(menuToggle.getAttribute("aria-expanded") !== "true"));
+      mobileMenu.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+      matchMedia("(min-width: 768px)").addEventListener("change", (e) => e.matches && setMenu(false));
+ 
+      /* Bayangan navbar saat scroll */
+      const onScroll = () => {
+        const s = scrollY > 10;
+        navbar.classList.toggle("shadow-md", s);
+        navbar.classList.toggle("border-mist-600/20", s);
+        navbar.classList.toggle("dark:border-mist-800", s);
       };
-
-      function showRegion(region) {
-        const data = regions[region];
-
-        document.getElementById("modalCategory").textContent = data.category;
-
-        document.getElementById("modalTitle").textContent = data.title;
-
-        document.getElementById("modalDescription").textContent =
-          data.description;
-
-        const modal = document.getElementById("regionModal");
-
+      addEventListener("scroll", onScroll, { passive: true });
+      onScroll();
+ 
+      /* Modal peta interaktif (ganti deskripsi sesuai kebutuhan) */
+      const regions = {
+        kalimantan: { title: "Kalimantan", desc: "Hutan hujan tropis Kalimantan merupakan salah satu kawasan hutan terluas di Indonesia yang kaya akan keanekaragaman hayati. Hutan ini menjadi habitat bagi orangutan, bekantan, dan berbagai spesies flora serta fauna langka, sekaligus berperan penting dalam menjaga keseimbangan ekosistem dan iklim." },
+        sulawesi: { title: "Sulawesi", desc: "Sulawesi memiliki kekayaan alam yang unik dengan berbagai satwa endemik yang tidak ditemukan di tempat lain. Hutan tropisnya menjadi habitat bagi anoa, babirusa, dan burung maleo. Keunikan geografis pulau ini menciptakan ekosistem yang kaya dan menjadikannya kawasan penting bagi pelestarian keanekaragaman hayati Indonesia." },
+        sumatra: { title: "Sumatra", desc: "Pulau Sumatra memiliki hutan tropis yang menjadi rumah bagi berbagai satwa langka dan dilindungi, seperti harimau Sumatra, gajah Sumatra, dan badak Sumatra. Ekosistem hutannya berperan penting dalam menjaga kelangsungan hidup satwa liar, namun kini menghadapi ancaman deforestasi dan hilangnya habitat." },
+        jawa: { title: "Pulau Jawa", desc: "Jawa merupakan pulau dengan kepadatan penduduk tertinggi di Indonesia, sekaligus memiliki bentang alam yang menakjubkan. Deretan gunung berapi, hutan pegunungan, dan kawasan subur membentuk kekayaan alamnya. Keindahan seperti Gunung Bromo dan Gunung Semeru menjadi bagian penting dari warisan alam Indonesia." },
+        rajaAmpat: { title: "Raja Ampat", desc: "Raja Ampat di Papua Barat Daya dikenal sebagai salah satu kawasan dengan keanekaragaman hayati laut yang luar biasa. Perairannya memiliki terumbu karang yang indah, beragam spesies ikan, penyu, dan biota laut lainnya. Keindahan ekosistemnya menjadikan Raja Ampat kawasan penting untuk konservasi laut dan pelestarian kekayaan bahari Indonesia." },
+      };
+      const modal = document.getElementById("regionModal");
+ 
+      function showRegion(key) {
+        const r = regions[key];
+        document.getElementById("modalTitle").textContent = r.title;
+        document.getElementById("modalDescription").textContent = r.desc;
         modal.classList.remove("hidden");
-
         modal.classList.add("flex");
       }
-
       function closeRegion() {
-        const modal = document.getElementById("regionModal");
-
         modal.classList.add("hidden");
-
         modal.classList.remove("flex");
       }
+      modal.addEventListener("click", (e) => e.target === modal && closeRegion());
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") { closeRegion(); setMenu(false); }
+      });
     </script>
-    <!-- script -->
+  </body>
   </body>
 </html>
