@@ -18,6 +18,41 @@
     </style>
   </head>
   <body class="bg-stone-50 font-montserrat text-teal-950 transition-colors duration-300 dark:bg-teal-950 dark:text-stone-50">
+
+    <!-- Loading screen -->
+     <div
+  id="loading-screen"
+  class="fixed inset-0 z-[9999] flex items-center justify-center bg-[#E4EAE0] transition-opacity duration-700"
+>
+  <div class="flex flex-col items-center">
+
+    <!-- Brand -->
+<div class="flex flex-col items-center">
+
+  <!-- GREENERS -->
+  <h1 id="brand-title"
+    class="font-['Montserrat'] font-black text-3xl md:text-4xl tracking-[0.12em] text-[#356B4C]">
+    GREENERS
+  </h1>
+
+  <!-- INDONESIA -->
+  <p id="brand-subtitle"
+    class="font-['Montserrat'] font-light text-[9px] md:text-[10px] tracking-[0.55em] text-[#356B4C]/70 mt-1">
+    INDONESIA
+  </p>
+
+</div>
+    <!-- Loading line -->
+    <div class="w-24 h-[2px] bg-[#356B4C]/10 rounded-full overflow-hidden mt-8">
+      <div
+        class="h-full w-full bg-[#51AA78] origin-left animate-[loading_1.5s_ease-in-out_infinite]"
+      ></div>
+    </div>
+
+  </div>
+</div>
+    <!-- Loading screen -->
+
     <!-- Navigasi -->
     <header
       id="navbar"
@@ -483,6 +518,19 @@
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") { closeRegion(); setMenu(false); }
       });
+
+      window.addEventListener("load", () => {
+    const loadingScreen = document.getElementById("loading-screen");
+
+    setTimeout(() => {
+      loadingScreen.classList.add("opacity-0");
+
+      setTimeout(() => {
+        loadingScreen.classList.add("hidden");
+      }, 700);
+
+    }, 3500);
+  });
     </script>
   </body>
   </body>
